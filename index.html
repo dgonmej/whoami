@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="description" content="">
+	<meta name="keywords" content="profile">
+	<meta name="author" content="Diego González">
+	<title>Diego González | Who Am I?</title>
+
+	<!-- Font Awesome if you need it -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+
+	<!-- Tailwind CSS -->
+	<link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="font-sans antialiased text-gray-900 leading-normal tracking-wider bg-cover">
+
+	<section id="main" class="bg-cover bg-center py-1 lg:py-0" style="background-image:url('/images/wallpaper_primary.jpg')">
+
+		<div class="max-w-4xl flex items-center h-auto lg:h-screen flex-wrap mx-auto my-32 lg:my-0">
+			<div id="profile" class="w-full lg:w-3/5 rounded lg:rounded-l lg:rounded-r-none shadow-lg bg-white opacity-75 mx-6 lg:mx-0">
+				<div class="p-4 md:p-6 text-center lg:text-left">
+
+					<!-- Image for mobile view-->
+					<div class="block lg:hidden rounded-full shadow-lg mx-auto -mt-16 h-48 w-48 bg-cover bg-center bg-no-repeat"
+						style="background-image: url('/images/main_profile_mobile.jpg');">
+					</div>
+
+					<!-- Name -->
+					<h1 class="text-3xl font-bold pt-8 lg:pt-0">
+						Diego González (@dgonmej)
+					</h1>
+
+					<div class="mx-auto lg:mx-0 w-4/5 pt-3 border-b-2 border-teal-500 opacity-25"></div>
+
+					<!-- Job -->
+					<p class="pt-4 text-base font-bold flex items-center justify-center lg:justify-start">
+						<i class="fas fa-briefcase h-4 fill-current text-teal-700 pr-4"></i> Developer
+					</p>
+
+					<!-- Location -->
+					<p class="pt-2 text-gray-600 text-xs lg:text-sm flex items-center justify-center lg:justify-start">
+						<i class="fas fa-globe h-4 fill-current text-teal-700 pr-5"></i> Tenerife, Spain
+					</p>
+
+					<!-- Description -->
+					<p class="pt-6 text-sm">
+						I'm a programming enthusiast, passionate about technology and willing to learn every day.
+					</p>
+
+					<div class="pt-12 pb-4">
+						<a class="bg-teal-700 hover:bg-teal-900 text-white font-bold py-2 px-4 rounded" href="mailto:dgonmej10@gmail.com">
+							Contact me 
+							<i class="fas fa-paper-plane"></i>
+						</a>
+					</div>
+
+					<div class="mt-6 pb-4 lg:pb-0 w-3/5 mx-auto flex flex-wrap items-center justify-between">
+						<a class="tooltip-down text-2xl" href="https://github.com/dgonmej" target="_blank"
+							rel="noopener noreferrer" data-tippy-content="Github">
+							<i class="fab fa-github w-full text-gray-600 hover:text-teal-700"></i>
+						</a>
+						<a class="tooltip-down text-2xl" href="https://www.linkedin.com/in/dgonmej" target="_blank"
+							rel="noopener noreferrer" data-tippy-content="LinkedIn">
+							<i class="fab fa-linkedin w-auto text-gray-600 hover:text-teal-700"></i>
+						</a>
+						<a class="tooltip-down text-2xl" href="https://twitter.com/dgonmej" target="_blank"
+							rel="noopener noreferrer" data-tippy-content="Twitter">
+							<i class="fab fa-twitter w-auto text-gray-600 hover:text-teal-700"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<!-- Big profile image for side bar (desktop) -->
+			<div class="w-full lg:w-2/5">
+				<img src="/images/main_profile.jpg" class="rounded-none lg:rounded shadow-lg hidden lg:block">
+			</div>
+
+			<!-- Pin to top right corner -->
+			<div class="absolute top-0 right-0 h-12 w-18 p-4">
+				<button class="tooltip-left js-change-theme focus:outline-none py-2 px-3 bg-teal-700 hover:bg-teal-900 rounded-full"
+					data-tippy-content="Change mode">
+					<i class="fas fa-moon"></i>
+				</button>
+			</div>
+
+			<div class="hidden lg:block absolute bottom-0 right-0 pr-2">
+				<p class="text-white text-xs p-2 opacity-50">
+					Wallpaper by <a class="hover:text-teal-400" href="https://unsplash.com/@x_vinicius" target="_blank"
+					rel="noopener noreferrer">Vinícius Henrique</a> on Unsplash
+				</p>
+			</div>
+
+		</div>
+
+	</section>
+
+	<script src="https://unpkg.com/popper.js@1/dist/umd/popper.min.js"></script>
+	<script src="https://unpkg.com/tippy.js@4"></script>
+	
+	<script src="/js/tooltip.js"></script>
+	<script src="/js/mode-selector.js"></script>
+
+</body>
+
+</html>

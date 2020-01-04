@@ -10,69 +10,71 @@
 	<meta name="author" content="Diego González">
 	<title>Diego González | Who Am I?</title>
 
+	<link href="https://fonts.googleapis.com/css?family=Montserrat|Montserrat+Alternates&display=swap" rel="stylesheet">
+
 	<!-- Font Awesome if you need it -->
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
 
 	<!-- Tailwind CSS -->
 	<link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+
+	<link rel="stylesheet" href="/css/styles.css">
 </head>
 
-<body class="font-sans antialiased text-gray-900 leading-normal tracking-wider bg-cover">
+<body class="font-sans antialiased leading-normal tracking-wider text-gray-900">
 
-	<section id="main" class="bg-cover bg-center py-1 lg:py-0" style="background-image:url('/images/wallpaper_primary.jpg')">
+	<!-- Main section -->
+	<section id="section-main" class="bg-cover bg-center pb-1 lg:pb-0">
+		<div class="flex items-center flex-wrap max-w-full lg:max-w-4xl h-auto lg:h-screen mx-auto mb-20 lg:mb-0">
+			
+			<!-- Image for mobile view -->
+			<div id="profile-mobile" class="bg-cover bg-center bg-no-repeat lg:hidden relative z-10 rounded-full shadow-lg w-48 h-48 mx-auto -mt-16"></div>
 
-		<div class="max-w-4xl flex items-center h-auto lg:h-screen flex-wrap mx-auto my-32 lg:my-0">
-			<div id="profile" class="w-full lg:w-3/5 rounded lg:rounded-l lg:rounded-r-none shadow-lg bg-white opacity-75 mx-6 lg:mx-0">
-				<div class="p-4 md:p-6 text-center lg:text-left">
-
-					<!-- Image for mobile view-->
-					<div class="block lg:hidden rounded-full shadow-lg mx-auto -mt-16 h-48 w-48 bg-cover bg-center bg-no-repeat"
-						style="background-image: url('/images/main_profile_mobile.jpg');">
-					</div>
+			<div id="profile" class="w-full lg:w-3/5 rounded lg:rounded-r-none shadow-lg bg-white opacity-75 mx-4 lg:mx-0">
+				<div class="p-6 text-center lg:text-left">
 
 					<!-- Name -->
-					<h1 class="text-3xl font-bold pt-8 lg:pt-0">
+					<h1 class="text-3xl font-primary font-bold pt-32 lg:pt-0">
 						Diego González (@dgonmej)
 					</h1>
 
-					<div class="mx-auto lg:mx-0 w-4/5 pt-3 border-b-2 border-teal-500 opacity-25"></div>
+					<div class="w-4/5 lg:w-full border-b-2 border-teal-500 mx-auto lg:mx-0 pt-2"></div>
 
 					<!-- Job -->
-					<p class="pt-4 text-base font-bold flex items-center justify-center lg:justify-start">
+					<p class="flex items-center justify-center lg:justify-start text-base font-bold pt-4">
 						<i class="fas fa-briefcase h-4 fill-current text-teal-700 pr-4"></i> Developer
 					</p>
 
 					<!-- Location -->
-					<p class="pt-2 text-gray-600 text-xs lg:text-sm flex items-center justify-center lg:justify-start">
-						<i class="fas fa-globe h-4 fill-current text-teal-700 pr-5"></i> Tenerife, Spain
+					<p class="flex items-center justify-center lg:justify-start text-base text-gray-600 pt-2">
+						<i class="fas fa-globe h-4 fill-current text-teal-700 pr-4"></i> Tenerife, Spain
 					</p>
 
 					<!-- Description -->
-					<p class="pt-6 text-sm">
+					<p class="text-base pt-6">
 						I'm a programming enthusiast, passionate about technology and willing to learn every day.
 					</p>
 
+					<!-- Contact -->
 					<div class="pt-12 pb-4">
-						<a class="bg-teal-700 hover:bg-teal-900 text-white font-bold py-2 px-4 rounded" href="mailto:dgonmej10@gmail.com">
-							Contact me 
-							<i class="fas fa-paper-plane"></i>
+						<a class="bg-teal-700 hover:bg-teal-900 rounded text-white font-bold font-secondary py-2 px-4" href="mailto:dgonmej10@gmail.com">
+							Contact me <i class="fas fa-paper-plane"></i>
 						</a>
 					</div>
 
-					<div class="mt-6 pb-4 lg:pb-0 w-3/5 mx-auto flex flex-wrap items-center justify-between">
-						<a class="tooltip-down text-2xl" href="https://github.com/dgonmej" target="_blank"
-							rel="noopener noreferrer" data-tippy-content="Github">
+					<!-- Resources -->
+					<div class="flex flex-wrap items-center justify-between w-3/5 mx-auto mt-6 pb-4 lg:pb-0">
+						<a class="tooltip-down text-2xl" href="https://github.com/dgonmej" target="_blank" rel="noopener noreferrer" data-tippy-content="Github">
 							<i class="fab fa-github w-full text-gray-600 hover:text-teal-700"></i>
 						</a>
-						<a class="tooltip-down text-2xl" href="https://www.linkedin.com/in/dgonmej" target="_blank"
-							rel="noopener noreferrer" data-tippy-content="LinkedIn">
+						<a class="tooltip-down text-2xl" href="https://www.linkedin.com/in/dgonmej" target="_blank" rel="noopener noreferrer" data-tippy-content="LinkedIn">
 							<i class="fab fa-linkedin w-auto text-gray-600 hover:text-teal-700"></i>
 						</a>
-						<a class="tooltip-down text-2xl" href="https://twitter.com/dgonmej" target="_blank"
-							rel="noopener noreferrer" data-tippy-content="Twitter">
+						<a class="tooltip-down text-2xl" href="https://twitter.com/dgonmej" target="_blank" rel="noopener noreferrer" data-tippy-content="Twitter">
 							<i class="fab fa-twitter w-auto text-gray-600 hover:text-teal-700"></i>
 						</a>
 					</div>
+
 				</div>
 			</div>
 
@@ -83,27 +85,240 @@
 
 			<!-- Pin to top right corner -->
 			<div class="absolute top-0 right-0 h-12 w-18 p-4">
-				<button class="tooltip-left js-change-theme focus:outline-none py-2 px-3 bg-teal-700 hover:bg-teal-900 rounded-full"
-					data-tippy-content="Change mode">
+				<button class="tooltip-left js-change-theme focus:outline-none bg-teal-900 text-teal-500 rounded-full py-2 px-3" data-tippy-content="Change mode">
 					<i class="fas fa-moon"></i>
 				</button>
 			</div>
 
+			<!-- Wallpaper author -->
 			<div class="hidden lg:block absolute bottom-0 right-0 pr-2">
-				<p class="text-white text-xs p-2 opacity-50">
-					Wallpaper by <a class="hover:text-teal-400" href="https://unsplash.com/@x_vinicius" target="_blank"
-					rel="noopener noreferrer">Vinícius Henrique</a> on Unsplash
+				<p class="opacity-50 text-white text-xs p-2">
+					Wallpaper by <a class="hover:text-teal-400" href="https://unsplash.com/@x_vinicius" target="_blank" rel="noopener noreferrer">Vinícius Henrique</a> on Unsplash
 				</p>
 			</div>
 
 		</div>
-
 	</section>
+
+	<!-- Intermediate section -->
+	<section class="section-theme border-t-2 border-b-2 border-teal-600">
+		<div class="flex items-center max-w-4xl h-auto lg:h-screen flex-wrap mx-auto">
+
+			<!-- More about me -->
+			<div class="box-theme max-w-full lg:max-w-sm lg:rounded overflow-hidden shadow-lg bg-white mx-auto mb-12 sm:mb-0">
+
+				<!-- Header image -->
+				<img class="w-full" src="/images/working.jpg" alt="Working">
+
+				<!-- Description -->
+				<div class="box-theme bg-white opacity-75">
+					<div class="p-6">
+
+						<!-- Title -->
+						<div class="title font-primary font-bold text-teal-700 text-xl capitalize">
+							More about me
+						</div>
+
+						<p class="pt-2 text-base">
+							I'm a very curious person. 
+							I'm always trying to be informed about the cutting edge technology. 
+							I'm responsible and patient. 
+							I'm always trying to help and spread the good vibes around me.
+						</p>
+					</div>
+
+					<!-- Hastags -->
+					<div class="px-6 py-4 text-center">
+						<span class="inline-block bg-gray-300 hover:bg-gray-400 rounded-full text-sm text-teal-800 font-secondary font-semibold px-3 py-1">
+							#work
+						</span>
+						<span class="inline-block bg-gray-300 hover:bg-gray-400 rounded-full text-sm text-teal-800 font-secondary font-semibold px-3 py-1">
+							#code
+						</span>
+						<span class="inline-block bg-gray-300 hover:bg-gray-400 rounded-full text-sm text-teal-800 font-secondary font-semibold px-3 py-1">
+							#serious
+						</span>
+					</div>
+
+				</div>
+			</div>
+
+			<!-- My daily routine -->
+			<div class="box-theme max-w-full lg:max-w-sm lg:rounded overflow-hidden bg-white mx-auto">
+				<div class="p-6">
+
+					<!-- Title -->
+					<div class="title font-primary font-bold text-teal-700 sm:text-center text-xl capitalize mb-4">
+						My daily routine
+					</div>
+
+					<!-- Skills -->
+					<div id="logos-container" class="flex flex-auto justify-around flex-wrap bg-white rounded">
+						<img class="w-14 mx-1 my-2 logos tooltip-down" src="/images/logos/laravel.svg" alt="Laravel" data-tippy-content="Laravel">
+						<img class="w-14 mx-1 my-2 logos tooltip-down" src="/images/logos/tailwindcss.svg" alt="Tailwind CSS" data-tippy-content="Tailwind CSS">
+						<img class="w-14 mx-1 my-2 logos tooltip-down" src="/images/logos/angular.svg" alt="Angular" data-tippy-content="Angular">
+						<img class="w-14 mx-1 my-2 logos tooltip-down" src="/images/logos/php.svg" alt="PHP" data-tippy-content="PHP">
+						<img class="w-14 mx-1 my-2 logos tooltip-down" src="/images/logos/html.svg" alt="HTML5" data-tippy-content="HTML5">
+						<img class="w-14 mx-1 my-2 logos tooltip-down" src="/images/logos/css.svg" alt="CSS3" data-tippy-content="CSS3">
+						<img class="w-14 mx-1 my-2 logos tooltip-down" src="/images/logos/javascript.svg" alt="Javascript" data-tippy-content="Javascript">
+						<img class="w-14 mx-1 my-2 logos tooltip-down" src="/images/logos/sass.svg" alt="Sass" data-tippy-content="Sass">
+						<img class="w-14 mx-1 my-2 logos tooltip-down" src="/images/logos/bootstrap.svg" alt="Bootstrap" data-tippy-content="Bootstrap">
+						<img class="w-14 mx-1 my-2 logos tooltip-down" src="/images/logos/mysql.svg" alt="Mysql" data-tippy-content="Mysql">
+						<img class="w-14 mx-1 my-2 logos tooltip-down" src="/images/logos/jquery.svg" alt="jQuery" data-tippy-content="jQuery">
+						<img class="w-14 mx-1 my-2 logos tooltip-down" src="/images/logos/git.svg" alt="Git" data-tippy-content="Git">
+						<img class="w-14 mx-1 my-2 logos tooltip-down" src="/images/logos/typescript.svg" alt="TypeScript" data-tippy-content="TypeScript">
+						<img class="w-14 mx-1 my-2 logos tooltip-down" src="/images/logos/ansible.svg" alt="Ansible" data-tippy-content="Ansible">
+						<img class="w-14 mx-1 my-2 logos tooltip-down" src="/images/logos/nginx.svg" alt="Nginx" data-tippy-content="Nginx">
+						<img class="w-14 mx-1 my-2 logos tooltip-down" src="/images/logos/docker.svg" alt="Docker" data-tippy-content="Docker">
+						<img class="w-14 mx-1 my-2 logos tooltip-down" src="/images/logos/apache.svg" alt="Apache" data-tippy-content="Apache">
+					</div>
+
+					<!-- Message -->
+					<div class="font-primary text-right my-5">
+						<i class="fas fa-code"></i> always learning...
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+	</section>
+
+	<!-- Lower section -->
+	<section id="section-bottom" class="section-theme bg-cover bg-center pt-1 lg:pt-0">
+		<div class="flex items-center flex-wrap max-w-5xl h-auto lg:h-screen mx-auto my-auto lg:my-0">
+
+			<!-- Title -->
+			<div class="title w-full font-primary font-bold text-teal-700 text-2xl text-center capitalize my-10 lg:mt-6 lg:mb-4">
+				About my hobbies
+			</div>
+
+			<!-- La Palma -->
+			<div class="max-w-xs rounded overflow-hidden shadow-lg my-5 lg:my-0 mx-auto">
+
+				<!-- Image -->
+				<img class="w-full" src="/images/mountain.jpg" alt="La Palma">
+
+				<!-- Description -->
+				<div class="box-theme bg-white opacity-75">
+
+					<div class="pt-1 pb-4 px-6">
+						<div class="font-secondary font-bold text-sm text-teal-700 text-right my-2">
+							<i class="fas fa-map-marker-alt"></i> La Palma
+						</div>
+						<p class="text-base">
+							I love to travel and meet new places to escape the routine. 
+							The snow of the mountain or the sand of the beach are the things I need to recover energy.
+						</p>
+					</div>
+
+					<!-- Hastags -->
+					<div class="text-center px-6 py-4">
+						<span class="inline-block bg-gray-300 hover:bg-gray-400 rounded-full text-sm text-teal-800 font-secondary font-semibold px-3 py-1">
+							#mountain
+						</span>
+						<span class="inline-block bg-gray-300 hover:bg-gray-400 rounded-full text-sm text-teal-800 font-secondary font-semibold px-3 py-1">
+							#cold
+						</span>
+						<span class="inline-block bg-gray-300 hover:bg-gray-400 rounded-full text-sm text-teal-800 font-secondary font-semibold px-3 py-1">
+							#snow
+						</span>
+					</div>
+
+				</div>
+			</div>
+
+			<!-- Fuerteventura -->
+			<div class="max-w-xs rounded overflow-hidden shadow-lg my-5 lg:my-0 mx-auto">
+
+				<!-- Image -->
+				<img class="w-full" src="/images/beach.jpg" alt="Fuerteventura">
+
+				<!-- Description -->
+				<div class="box-theme bg-white opacity-75">
+
+					<div class="pt-1 pb-4 px-6">
+						<div class="font-secondary font-bold text-sm text-teal-700 text-right my-2">
+							<i class="fas fa-map-marker-alt"></i> Fuerteventura
+						</div>
+						<p class="text-base">
+							One thing it's very important for me is has peace moments, 
+							for example spend my time on the beach and enjoying a good sunset.
+						</p>
+					</div>
+
+					<!-- Hastags -->
+					<div class="text-center px-6 py-4">
+						<span class="inline-block bg-gray-300 hover:bg-gray-400 rounded-full text-sm text-teal-800 font-secondary font-semibold px-3 py-1">
+							#beach
+						</span>
+						<span class="inline-block bg-gray-300 hover:bg-gray-400 rounded-full text-sm text-teal-800 font-secondary font-semibold px-3 py-1">
+							#ocean
+						</span>
+						<span class="inline-block bg-gray-300 hover:bg-gray-400 rounded-full text-sm text-teal-800 font-secondary font-semibold px-3 py-1">
+							#feet
+						</span>
+					</div>
+
+				</div>
+			</div>
+
+			<!-- Tenerife -->
+			<div class="max-w-xs rounded overflow-hidden shadow-lg mt-5 mb-16 lg:my-0 mx-auto">
+
+				<!-- Image -->
+				<img class="w-full" src="/images/pool.jpg" alt="Tenerife">
+
+				<!-- Description -->
+				<div class="box-theme bg-white opacity-75">
+
+					<div class="pt-1 pb-4 px-6">
+						<div class="font-secondary font-bold text-sm text-teal-700 text-right my-2">
+							<i class="fas fa-map-marker-alt"></i> Tenerife
+						</div>
+						<p class="text-base">
+							I like to have fun and meet new people. 
+							I try to enjoy the good things in life and always be with a smile on my face.
+						</p>
+					</div>
+
+					<!-- Hastags -->
+					<div class="text-center px-6 py-4">
+						<span class="inline-block bg-gray-300 hover:bg-gray-400 rounded-full text-sm text-teal-800 font-secondary font-semibold px-3 py-1">
+							#pool
+						</span>
+						<span class="inline-block bg-gray-300 hover:bg-gray-400 rounded-full text-sm text-teal-800 font-secondary font-semibold px-3 py-1">
+							#fun
+						</span>
+						<span class="inline-block bg-gray-300 hover:bg-gray-400 rounded-full text-sm text-teal-800 font-secondary font-semibold px-3 py-1">
+							#sunglasses
+						</span>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+	</section>
+
+	<!-- Footer -->
+	<footer class="bg-gray-900 border-t-2 border-teal-600 text-center mx-auto p-4">
+		<p class="font-normal text-gray-100">
+			Made with <i class="fas fa-heart text-teal-600"></i> by <span class="font-bold text-teal-600">Diego González</span>
+		</p>
+	</footer>
+
+	<div class="fixed bottom-0 right-0 w-18 h-12 mb-12 p-4">
+		<button id="return-top" class="tooltip-left w-auto focus:outline-none bg-teal-700 hover:bg-teal-900 rounded text-xl text-white py-2 px-4" data-tippy-content="Go to top">
+			<i class="fas fa-chevron-up"></i>
+		</button>
+	</div>
 
 	<script src="https://unpkg.com/popper.js@1/dist/umd/popper.min.js"></script>
 	<script src="https://unpkg.com/tippy.js@4"></script>
-	
+
 	<script src="/js/tooltip.js"></script>
+	<script src="/js/return_top.js"></script>
 	<script src="/js/mode-selector.js"></script>
 
 </body>

@@ -1,0 +1,29 @@
+/* Basic styles */
+
+#section-main, #section-bottom {
+    background-position: 0 30%;
+    background-attachment: fixed;
+    background-image: url('../images/wallpaper_alternative.jpg');
+}
+
+#profile-mobile {
+    top: 120px;
+    background-image: url('../images/main_profile_mobile.jpg');
+}
+
+.logos {
+    max-width: 100px;
+    max-height: 70px;
+}
+
+p {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.font-primary {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.font-secondary {
+    font-family: 'Montserrat Alternates', sans-serif;
+}

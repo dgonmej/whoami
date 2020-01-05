@@ -21,8 +21,8 @@ toggle.addEventListener('click', () => {
         profile.classList.remove('bg-white');
         profile.classList.add('bg-gray-900');
 
-        mainSection.style.backgroundImage = "url('../images/wallpaper_secondary.jpg')";
-        bottomSection.style.backgroundImage = "url('../images/wallpaper_secondary.jpg')";
+        mainSection.style.backgroundImage = "url('/whoami/images/wallpaper_secondary.jpg')";
+        bottomSection.style.backgroundImage = "url('/whoami/images/wallpaper_secondary.jpg')";
 
         logosContainer.classList.remove('bg-white');
         logosContainer.classList.add('bg-gray-400');
@@ -50,8 +50,8 @@ toggle.addEventListener('click', () => {
         profile.classList.remove('bg-gray-900');
         profile.classList.add('bg-white');
 
-        mainSection.style.backgroundImage = "url('./../images/wallpaper_alternative.jpg')";
-        bottomSection.style.backgroundImage = "url('./../images/wallpaper_primary.jpg')";
+        mainSection.style.backgroundImage = "url('/whoami/images/wallpaper_alternative.jpg')";
+        bottomSection.style.backgroundImage = "url('/whoami/images/wallpaper_primary.jpg')";
 
         logosContainer.classList.remove('bg-gray-400');
         logosContainer.classList.add('bg-white');

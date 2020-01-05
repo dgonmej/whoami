@@ -1,14 +1,18 @@
 /* Basic styles */
 
-#section-main, #section-bottom {
+#section-main {
     background-position: 0 30%;
     background-attachment: fixed;
-    background-image: url('../images/wallpaper_alternative.jpg');
+    background-image: url('./../images/wallpaper_alternative.jpg');
+}
+
+#section-bottom {
+    background-image: url('./../images/wallpaper_primary.jpg');
 }
 
 #profile-mobile {
     top: 120px;
-    background-image: url('../images/main_profile_mobile.jpg');
+    background-image: url('./../images/main_profile_mobile.jpg');
 }
 
 .logos {

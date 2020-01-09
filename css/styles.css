@@ -1,5 +1,9 @@
 /* Basic styles */
 
+html {
+    scroll-behavior: smooth;
+}
+
 #section-main {
     background-position: center 30%;
     background-attachment: fixed;

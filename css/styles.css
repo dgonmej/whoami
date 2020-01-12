@@ -14,9 +14,14 @@ html {
     background-image: url('../images/wallpaper_primary.jpg');
 }
 
-#profile-mobile {
+.bg-image-1 {
     top: 120px;
-    background-image: url('../images/main_profile_mobile.jpg');
+    background-image: url('../images/main_1.png');
+}
+
+.bg-image-2 {
+    top: 120px;
+    background-image: url('../images/main_2.png');
 }
 
 .logos {

@@ -36,11 +36,11 @@
 <body class="font-sans antialiased leading-normal tracking-wider text-gray-900">
 
 	<!-- Main section -->
-	<section id="section-main" class="bg-cover bg-center pb-1 lg:pb-0">
+	<section id="section-main" class="bg-cover bg-center pb-1 lg:pb-0 transition duration-500 ease-in-out">
 		<div class="flex items-center flex-wrap max-w-full lg:max-w-4xl h-auto lg:h-screen mx-auto mb-20 lg:mb-0">
 			
 			<!-- Image for mobile view -->
-			<div id="profile-mobile" class="profile bg-image-1 bg-cover bg-center bg-no-repeat bg-teal-700 lg:hidden relative z-10 rounded-full shadow-lg w-48 h-48 mx-auto -mt-16"></div>
+			<div id="profile-mobile" class="transition duration-500 ease-in-out profile bg-image-1 bg-cover bg-center bg-no-repeat bg-teal-700 lg:hidden relative z-10 rounded-full shadow-lg w-48 h-48 mx-auto -mt-16"></div>
 
 			<div class="box-theme w-full lg:w-3/5 rounded lg:rounded-r-none shadow-lg bg-white opacity-75 mx-4 lg:mx-0">
 				<div class="p-6 text-center lg:text-left">
@@ -91,8 +91,8 @@
 			</div>
 
 			<!-- Big profile image for side bar (desktop) -->
-			<div class="profile w-full lg:w-2/5 bg-teal-700 rounded">
-				<img id="profile-desktop" src="images/main_1.png" class="rounded-none lg:rounded shadow-lg hidden lg:block">
+			<div class="profile w-full lg:w-2/5 bg-teal-700 rounded-lg transition duration-500 ease-in-out">
+				<img id="profile-desktop" src="images/main_1.png" class="rounded-none lg:rounded-lg shadow-lg hidden lg:block">
 			</div>
 
 			<!-- Pin to top right corner -->
@@ -117,7 +117,7 @@
 		<div class="flex items-center max-w-4xl h-auto lg:h-screen flex-wrap mx-auto">
 
 			<!-- More about me -->
-			<div class="box-theme max-w-full lg:max-w-sm lg:rounded overflow-hidden shadow-lg bg-white mx-auto mb-12 sm:mb-0">
+			<div class="box-theme max-w-full lg:max-w-sm lg:rounded-lg overflow-hidden shadow-lg bg-white mx-auto mb-12 sm:mb-0">
 
 				<!-- Header image -->
 				<img class="w-full" src="images/working.jpg" alt="Working">
@@ -158,7 +158,7 @@
 			</div>
 
 			<!-- My daily routine -->
-			<div class="box-theme max-w-full lg:max-w-sm lg:rounded overflow-hidden bg-white mx-auto">
+			<div class="box-theme max-w-full lg:max-w-sm lg:rounded-lg overflow-hidden bg-white mx-auto">
 				<div class="p-6">
 
 					<!-- Title -->
@@ -210,7 +210,7 @@
 			</p>
 		</div>
 
-		<div class="flex items-center flex-wrap max-w-5xl h-auto lg:h-screen mx-auto my-auto lg:my-0">
+		<div class="flex items-center justify-center flex-wrap h-auto xl:h-screen mx-auto my-auto lg:my-0">
 
 			<!-- Title -->
 			<div class="w-full my-10 lg:my-4">
@@ -219,8 +219,43 @@
 				</h2>
 			</div>
 
+			<!-- Tenerife -->
+			<div class="max-w-xl sm:max-w-sm rounded-lg overflow-hidden shadow-lg mt-5 lg:mt-0 mb-16 lg:mb-10 mx-auto">
+
+				<!-- Image -->
+				<img class="w-full" src="images/pool.jpg" alt="Tenerife">
+
+				<!-- Description -->
+				<div class="box-theme bg-white opacity-75">
+
+					<div class="pt-1 pb-4 px-6">
+						<div class="font-secondary font-bold text-sm text-teal-700 text-right my-2">
+							<i class="fas fa-map-marker-alt"></i> Tenerife
+						</div>
+						<p class="text-base">
+							I like to have fun and meet new people. 
+							I try to enjoy the good things in life and always be with a smile on my face.
+						</p>
+					</div>
+
+					<!-- Hastags -->
+					<div class="text-center px-6 py-4">
+						<span class="inline-block bg-gray-300 hover:bg-gray-400 rounded-full text-sm text-teal-800 font-primary font-semibold mx-1 px-2 py-1">
+							#pool
+						</span>
+						<span class="inline-block bg-gray-300 hover:bg-gray-400 rounded-full text-sm text-teal-800 font-primary font-semibold mx-1 px-2 py-1">
+							#fun
+						</span>
+						<span class="inline-block bg-gray-300 hover:bg-gray-400 rounded-full text-sm text-teal-800 font-primary font-semibold mx-1 px-2 py-1">
+							#sunglasses
+						</span>
+					</div>
+
+				</div>
+			</div>
+
 			<!-- La Palma -->
-			<div class="max-w-xs rounded overflow-hidden shadow-lg my-5 lg:mt-0 lg:mb-10 mx-auto">
+			<div class="max-w-xl sm:max-w-sm rounded-lg overflow-hidden shadow-lg my-5 lg:mt-0 lg:mb-10 mx-auto">
 
 				<!-- Image -->
 				<img class="w-full" src="images/mountain.jpg" alt="La Palma">
@@ -255,7 +290,7 @@
 			</div>
 
 			<!-- Fuerteventura -->
-			<div class="max-w-xs rounded overflow-hidden shadow-lg my-5 lg:mt-0 lg:mb-10 mx-auto">
+			<div class="max-w-xl sm:max-w-sm rounded-lg overflow-hidden shadow-lg my-5 lg:mt-0 lg:mb-10 mx-auto">
 
 				<!-- Image -->
 				<img class="w-full" src="images/beach.jpg" alt="Fuerteventura">
@@ -289,41 +324,6 @@
 				</div>
 			</div>
 
-			<!-- Tenerife -->
-			<div class="max-w-xs rounded overflow-hidden shadow-lg mt-5 lg:mt-0 mb-16 lg:mb-10 mx-auto">
-
-				<!-- Image -->
-				<img class="w-full" src="images/pool.jpg" alt="Tenerife">
-
-				<!-- Description -->
-				<div class="box-theme bg-white opacity-75">
-
-					<div class="pt-1 pb-4 px-6">
-						<div class="font-secondary font-bold text-sm text-teal-700 text-right my-2">
-							<i class="fas fa-map-marker-alt"></i> Tenerife
-						</div>
-						<p class="text-base">
-							I like to have fun and meet new people. 
-							I try to enjoy the good things in life and always be with a smile on my face.
-						</p>
-					</div>
-
-					<!-- Hastags -->
-					<div class="text-center px-6 py-4">
-						<span class="inline-block bg-gray-300 hover:bg-gray-400 rounded-full text-sm text-teal-800 font-primary font-semibold mx-1 px-2 py-1">
-							#pool
-						</span>
-						<span class="inline-block bg-gray-300 hover:bg-gray-400 rounded-full text-sm text-teal-800 font-primary font-semibold mx-1 px-2 py-1">
-							#fun
-						</span>
-						<span class="inline-block bg-gray-300 hover:bg-gray-400 rounded-full text-sm text-teal-800 font-primary font-semibold mx-1 px-2 py-1">
-							#sunglasses
-						</span>
-					</div>
-
-				</div>
-			</div>
-
 		</div>
 	</section>
 
@@ -336,7 +336,7 @@
 		</div>
 
 		<p class="font-normal text-gray-100">
-			Made with <i class="fas fa-heart text-teal-600"></i> by <span class="font-bold text-teal-600">Diego González</span>
+			Made with <i class="fas fa-heart text-teal-600 tooltip-down" data-tippy-content="Tailwind CSS"></i> by <span class="font-bold text-teal-600">Diego González</span>
 		</p>
 	</footer>
 

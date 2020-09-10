@@ -105,6 +105,14 @@ p {
 }
 
 @media screen and (max-width: 768px) {
+   .timeline-container {
+       width: 100%;
+       padding: 50px 30px;
+       margin: 0 auto;
+       position: relative;
+       overflow: hidden;
+   }
+
    .timeline-container:before {
        left: 38px;
        width: 2px;

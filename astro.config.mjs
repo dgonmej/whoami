@@ -5,12 +5,6 @@ export default defineConfig({
   site: 'https://dgonmej.github.io',
   // Sin la barra de herramientas de desarrollo de Astro en local
   devToolbar: { enabled: false },
-  vite: {
-    server: {
-      // Solo en desarrollo: permitir abrir el servidor local a traves de un tunel de Cloudflare
-      allowedHosts: ['.trycloudflare.com'],
-    },
-  },
   base: '/whoami',
   i18n: {
     locales: ['es', 'en'],

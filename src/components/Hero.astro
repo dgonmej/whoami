@@ -1,0 +1,259 @@
+---
+import { Image } from 'astro:assets';
+import avatarLight from '../assets/avatar-light.png';
+import avatarDark from '../assets/avatar-dark.png';
+import Icon from './Icon.astro';
+import { content, email, socials, type Locale } from '../i18n/content';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = content[locale].hero;
+---
+
+<section class="hero container" aria-labelledby="hero-title">
+  <div class="intro">
+    <p class="greeting">{t.greeting}</p>
+    <h1 id="hero-title">Diego González</h1>
+    <p class="handle">@dgonmej</p>
+
+    <ul class="facts">
+      <li>
+        <dgonmej-ui-icon name="briefcase" size="18"></dgonmej-ui-icon>
+        {t.role}
+      </li>
+      <li>
+        <Icon name="map-pin" size={18} />
+        {t.location}
+      </li>
+    </ul>
+
+    <p class="bio">{t.bio}</p>
+
+    <div class="actions">
+      <dgonmej-ui-button variant="primary" size="large" href={`mailto:${email}`}>
+        <Icon name="mail" />{t.cta}
+      </dgonmej-ui-button>
+      <div class="socials">
+        {
+          socials.map((s) => (
+            <dgonmej-ui-button variant="secondary" size="large" icon href={s.href} target="_blank" label={s.name}>
+              <Icon name={s.icon} />
+            </dgonmej-ui-button>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="portrait">
+    <Image class="avatar avatar-light" src={avatarLight} alt={t.avatarAlt} width={480} loading="eager" />
+    <!-- Misma ilustracion en version oscura: decorativa para no leerla dos veces -->
+    <Image class="avatar avatar-dark" src={avatarDark} alt="" width={480} loading="eager" />
+    <div class="glass-tag" aria-hidden="true">
+      <Icon name="map-pin" size={16} />
+      {t.location}
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    display: grid;
+    gap: var(--ui-space-8);
+    align-items: center;
+    padding-block: var(--ui-space-8) calc(var(--ui-space-8) * 1.5);
+  }
+
+  @media (min-width: 880px) {
+    .hero {
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+      min-height: calc(100dvh - 120px);
+    }
+  }
+
+  .greeting {
+    margin: 0;
+    color: var(--ui-color-primary-text);
+    font-size: var(--ui-font-size-title3);
+    font-weight: 600;
+  }
+
+  h1 {
+    margin: var(--ui-space-1) 0 0;
+    font-family: var(--ui-font-family-display);
+    font-size: clamp(2.75rem, 7vw, 4.5rem);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    line-height: 1;
+  }
+
+  .handle {
+    margin: var(--ui-space-2) 0 0;
+    color: var(--ui-color-text-muted);
+    font-size: var(--ui-font-size-title3);
+  }
+
+  .facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ui-space-2) var(--ui-space-5);
+    margin: var(--ui-space-6) 0 0;
+    padding: 0;
+    list-style: none;
+    font-weight: 600;
+  }
+
+  .facts li {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ui-space-2);
+  }
+
+  .facts :global(.icon),
+  .facts dgonmej-ui-icon {
+    color: var(--ui-color-primary-text);
+  }
+
+  .bio {
+    max-width: 32em;
+    margin: var(--ui-space-4) 0 var(--ui-space-8);
+    color: var(--ui-color-text-muted);
+    font-size: var(--ui-font-size-title3);
+    line-height: 1.45;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    /* Mas aire vertical cuando las redes bajan a otra linea */
+    gap: var(--ui-space-5) var(--ui-space-3);
+  }
+
+  .socials {
+    display: flex;
+    gap: var(--ui-space-3);
+  }
+
+  /* Retrato: ilustracion sobre un degradado del acento */
+  .portrait {
+    position: relative;
+    display: grid;
+    place-items: end center;
+    aspect-ratio: 4 / 5;
+    width: min(100%, 420px);
+    margin-inline: auto;
+    overflow: hidden;
+    border-radius: var(--ui-radius-lg);
+    background: var(--site-portrait);
+    box-shadow: var(--ui-shadow-lg);
+    isolation: isolate;
+  }
+
+  .avatar {
+    grid-area: 1 / 1;
+    width: 92%;
+    height: auto;
+    transition: opacity var(--ui-duration-slow) var(--ui-ease-standard);
+  }
+
+  /* La ilustracion cambia con el tema, como en la version original */
+  .avatar-dark {
+    opacity: 0;
+  }
+
+  :global([data-theme='dark']) .avatar-light {
+    opacity: 0;
+  }
+  :global([data-theme='dark']) .avatar-dark {
+    opacity: 1;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme='light'])) .avatar-light {
+      opacity: 0;
+    }
+    :global(:root:not([data-theme='light'])) .avatar-dark {
+      opacity: 1;
+    }
+  }
+
+  .glass-tag {
+    position: absolute;
+    top: var(--ui-space-4);
+    left: var(--ui-space-4);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px var(--ui-space-3);
+    border-radius: var(--ui-radius-control);
+    color: var(--ui-material-text);
+    background: var(--ui-material-bg);
+    border: 1px solid var(--ui-material-border);
+    box-shadow: var(--ui-shadow-sm);
+    font-size: var(--ui-font-size-footnote);
+    font-weight: 600;
+  }
+
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .glass-tag {
+      background: var(--ui-material-bg-translucent);
+      -webkit-backdrop-filter: var(--ui-material-blur);
+      backdrop-filter: var(--ui-material-blur);
+    }
+  }
+
+  /* Va despues de los estilos base para poder sobrescribirlos.
+     Movil en horizontal: poca altura, asi que texto y retrato lado a lado */
+  @media (orientation: landscape) and (max-height: 520px) and (min-width: 600px) {
+    .hero {
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: var(--ui-space-6);
+      min-height: 0;
+      padding-block: var(--ui-space-5) var(--ui-space-8);
+    }
+    .portrait {
+      width: min(34vw, 280px);
+    }
+    h1 {
+      font-size: clamp(2.25rem, 6vw, 3rem);
+    }
+    .facts {
+      margin-top: var(--ui-space-4);
+    }
+    .bio {
+      margin-bottom: var(--ui-space-5);
+    }
+  }
+
+  /* Unico momento orquestado: entrada escalonada de la cabecera */
+  @media (prefers-reduced-motion: no-preference) {
+    .intro > *,
+    .portrait {
+      animation: reveal var(--ui-duration-slow) var(--ui-ease-standard) both;
+    }
+    .intro > :nth-child(2) {
+      animation-delay: 40ms;
+    }
+    .intro > :nth-child(3),
+    .intro > :nth-child(4) {
+      animation-delay: 80ms;
+    }
+    .intro > :nth-child(5),
+    .intro > :nth-child(6) {
+      animation-delay: 120ms;
+    }
+    .portrait {
+      animation-delay: 160ms;
+    }
+    @keyframes reveal {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+    }
+  }
+</style>

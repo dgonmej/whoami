@@ -1,0 +1,16 @@
+{
+  "name": "whoami",
+  "version": "4.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Personal website of Diego González, built with Astro and dgonmej-ui.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "astro": "^7.4.8",
+    "dgonmej-ui": "file:../dgonmej-ui"
+  }
+}

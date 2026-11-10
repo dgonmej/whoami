@@ -1,0 +1,99 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { content, locales, localeNames, type Locale } from '../i18n/content';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = content[locale];
+const home = getRelativeLocaleUrl(locale, '');
+const links = [
+  { href: '#sobre-mi', label: t.nav.about },
+  { href: '#tecnologias', label: t.nav.stack },
+  { href: '#aficiones', label: t.nav.hobbies },
+  { href: '#trayectoria', label: t.nav.journey },
+];
+// Opciones del selector de idioma: codigo visible, nombre completo para lectores de pantalla
+const languages = locales.map((l) => ({ value: l, label: l.toUpperCase(), url: getRelativeLocaleUrl(l, '') }));
+const other = locales.find((l) => l !== locale)!;
+---
+
+<dgonmej-ui-nav-bar class="site-nav" style="--ui-nav-bar-max-width: var(--site-max)">
+  <a slot="leading" class="brand" href={home} aria-label="Diego González">
+    <span class="brand-mark" aria-hidden="true">dg</span>
+    <span class="brand-name">Diego González</span>
+  </a>
+
+  {
+    links.map((l) => (
+      <dgonmej-ui-button slot="trailing" class="wide-only" variant="ghost" size="small" href={l.href}>
+        {l.label}
+      </dgonmej-ui-button>
+    ))
+  }
+
+  <dgonmej-ui-segmented-control
+    slot="trailing"
+    id="language"
+    size="small"
+    label={t.nav.language}
+    value={locale}
+    data-languages={JSON.stringify(languages)}
+  ></dgonmej-ui-segmented-control>
+  <noscript>
+    <a slot="trailing" href={getRelativeLocaleUrl(other, '')} hreflang={other} lang={other}>{localeNames[other]}</a>
+  </noscript>
+
+  <!-- Segmentado solo con iconos en todas las anchuras: misma altura y estilo que el de idioma -->
+  <dgonmej-ui-theme-toggle slot="trailing" compact></dgonmej-ui-theme-toggle>
+</dgonmej-ui-nav-bar>
+
+<script>
+  // Selector de idioma: al cambiar, ir a la misma seccion en el otro idioma
+  const language = document.getElementById('language') as HTMLElement & { options: unknown; value: string };
+  const languages = JSON.parse(language.dataset.languages ?? '[]') as { value: string; label: string; url: string }[];
+  customElements.whenDefined('dgonmej-ui-segmented-control').then(() => {
+    language.options = languages.map(({ value, label }) => ({ value, label }));
+  });
+  language.addEventListener('ui-change', (event) => {
+    const { value } = (event as CustomEvent<{ value: string }>).detail;
+    const target = languages.find((l) => l.value === value);
+    if (target) location.href = target.url + location.hash;
+  });
+</script>
+
+<style>
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ui-space-2);
+    min-height: 44px;
+    padding-inline: var(--ui-space-2);
+    border-radius: var(--ui-radius-control);
+    color: var(--ui-color-text);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+  }
+
+  .brand-mark {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: calc(var(--ui-radius-md) * 0.8);
+    color: var(--ui-color-primary-contrast);
+    background: var(--ui-gradient-primary);
+    font-size: var(--ui-font-size-footnote);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  @media (max-width: 479px) {
+    .brand-name {
+      display: none;
+    }
+  }
+</style>

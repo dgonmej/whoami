@@ -1,0 +1,141 @@
+---
+import { Image, getImage } from 'astro:assets';
+import working from '../assets/working.jpg';
+import profile from '../assets/profile.jpg';
+import Icon from './Icon.astro';
+import { content, stack, type Locale } from '../i18n/content';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = content[locale];
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+// Foto optimizada para el avatar (el componente recibe una URL)
+const photo = await getImage({ src: profile, width: 128, height: 128, format: 'webp' });
+---
+
+<section class="section container" id="sobre-mi" aria-labelledby="about-title">
+  <div class="grid">
+    <dgonmej-ui-card class="about" elevation="raised">
+      <div slot="media" class="media">
+        <Image src={working} alt={t.about.imageAlt} width={720} sizes="(min-width: 880px) 480px, 100vw" />
+      </div>
+      <div slot="header" class="person">
+        <dgonmej-ui-avatar size="md" name="Diego González" src={photo.src} ring></dgonmej-ui-avatar>
+        <span>Diego González</span>
+      </div>
+      <h2 id="about-title" class="card-title">{t.about.title}</h2>
+      <p class="card-text">{t.about.text}</p>
+      <div slot="footer" class="tags">
+        {t.about.tags.map((tag) => <dgonmej-ui-badge variant="accent">{tag}</dgonmej-ui-badge>)}
+      </div>
+    </dgonmej-ui-card>
+
+    <section class="panel stack" id="tecnologias" aria-labelledby="stack-title">
+      <h2 id="stack-title" class="card-title">{t.stack.title}</h2>
+      <p class="card-text">{t.stack.intro}</p>
+      <ul class="logos">
+        {
+          stack.map((tech) => (
+            <li>
+              <img src={`${base}/logos/${tech.logo}`} alt="" width="32" height="32" loading="lazy" />
+              <span>{tech.name}</span>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="learning">
+        <Icon name="code" size={18} />
+        {t.stack.learning}
+      </p>
+    </section>
+  </div>
+</section>
+
+<style>
+  .grid {
+    display: grid;
+    gap: var(--ui-space-6);
+    align-items: start;
+  }
+
+  @media (min-width: 880px) {
+    .grid {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    }
+  }
+
+  .media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .person {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ui-space-3);
+    font-weight: 600;
+  }
+
+  .card-title {
+    margin: 0 0 var(--ui-space-2);
+    font-family: var(--ui-font-family-display);
+    font-size: var(--ui-font-size-title1);
+    font-weight: 700;
+    letter-spacing: var(--ui-letter-spacing-tight);
+    line-height: 1.15;
+  }
+
+  .card-text {
+    margin: 0;
+    color: var(--ui-color-text-muted);
+    font-size: var(--ui-font-size-body);
+    line-height: var(--ui-line-height-body);
+  }
+
+  .logos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 84px), 1fr));
+    gap: var(--ui-space-3);
+    margin: var(--ui-space-6) 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .logos li {
+    display: grid;
+    justify-items: center;
+    gap: var(--ui-space-2);
+    padding: var(--ui-space-4) var(--ui-space-2) var(--ui-space-3);
+    border-radius: var(--ui-radius-md);
+    background: var(--ui-color-fill);
+    font-size: var(--ui-font-size-footnote);
+    font-weight: 600;
+    text-align: center;
+    transition: transform var(--ui-duration-fast) var(--ui-ease-standard);
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .logos li:hover {
+      transform: translateY(-2px);
+    }
+  }
+
+  .logos img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+  }
+
+  .learning {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ui-space-2);
+    margin: 0;
+    color: var(--ui-color-primary-text);
+    font-weight: 600;
+  }
+</style>

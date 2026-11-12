@@ -1,0 +1,114 @@
+---
+import Icon from './Icon.astro';
+import { content, email, socials, type Locale } from '../i18n/content';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = content[locale].contact;
+---
+
+<section class="section container" id="contacto" aria-labelledby="contact-title">
+  <div class="contact">
+    <div class="glass">
+      <h2 id="contact-title">{t.title}</h2>
+      <p>{t.text}</p>
+      <div class="actions">
+        <dgonmej-ui-button variant="primary" size="large" href={`mailto:${email}`}>
+          <Icon name="mail" />{t.cta}
+        </dgonmej-ui-button>
+        <div class="socials">
+          {
+            socials.map((s) => (
+              <dgonmej-ui-button variant="glass" size="large" icon href={s.href} target="_blank" label={s.name}>
+                <Icon name={s.icon} />
+              </dgonmej-ui-button>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Bloque de cierre: tarjeta de vidrio sobre el degradado del acento */
+  .contact {
+    display: grid;
+    place-items: center;
+    padding: calc(var(--ui-space-8) * 1.5) var(--ui-space-4);
+    border-radius: var(--ui-radius-lg);
+    background: var(--site-portrait);
+    box-shadow: var(--ui-shadow-lg);
+  }
+
+  .glass {
+    width: min(100%, 560px);
+    padding: var(--ui-space-8) var(--ui-space-6);
+    border-radius: var(--ui-radius-lg);
+    color: var(--ui-material-text);
+    background: var(--ui-material-bg);
+    border: 1px solid var(--ui-material-border);
+    box-shadow: var(--ui-shadow-md);
+    text-align: center;
+  }
+
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .glass {
+      background: var(--ui-material-bg-translucent);
+      -webkit-backdrop-filter: var(--ui-material-blur);
+      backdrop-filter: var(--ui-material-blur);
+    }
+  }
+
+  h2 {
+    margin: 0;
+    font-family: var(--ui-font-family-display);
+    font-size: clamp(1.75rem, 3.5vw, 2.25rem);
+    font-weight: 700;
+    letter-spacing: var(--ui-letter-spacing-tight);
+  }
+
+  p {
+    margin: var(--ui-space-3) 0 var(--ui-space-6);
+    color: var(--ui-color-text-muted);
+    font-size: var(--ui-font-size-title3);
+    line-height: 1.4;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--ui-space-5) var(--ui-space-3);
+  }
+
+  .socials {
+    display: flex;
+    gap: var(--ui-space-3);
+  }
+
+  /* En movil: el boton y las redes en filas separadas, centradas */
+  @media (max-width: 559px) {
+    .actions {
+      flex-direction: column;
+    }
+  }
+
+  /* Pantallas muy estrechas (320-374px) */
+  @media (max-width: 374px) {
+    .contact {
+      padding: var(--ui-space-6) var(--ui-space-3);
+    }
+    .glass {
+      padding: var(--ui-space-6) var(--ui-space-4);
+    }
+    .actions dgonmej-ui-button::part(control) {
+      white-space: normal;
+      text-align: center;
+    }
+  }
+</style>

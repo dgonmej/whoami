@@ -1,0 +1,95 @@
+---
+import { Image } from 'astro:assets';
+import tenerife from '../assets/tenerife.jpg';
+import laPalma from '../assets/la-palma.jpg';
+import fuerteventura from '../assets/fuerteventura.jpg';
+import Icon from './Icon.astro';
+import { content, type Locale } from '../i18n/content';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = content[locale].hobbies;
+const images = { tenerife, 'la-palma': laPalma, fuerteventura } as const;
+---
+
+<section class="section container" id="aficiones" aria-labelledby="hobbies-title">
+  <div class="section-head">
+    <h2 id="hobbies-title">{t.title}</h2>
+    <p>{t.intro}</p>
+  </div>
+
+  <ul class="hobbies">
+    {
+      t.items.map((item) => (
+        <li>
+          <dgonmej-ui-card elevation="raised">
+            <div slot="media" class="media">
+              <Image
+                src={images[item.image as keyof typeof images]}
+                alt={item.alt}
+                width={720}
+                sizes="(min-width: 880px) 360px, 100vw"
+              />
+            </div>
+            <p slot="header" class="place">
+              <Icon name="map-pin" size={18} />
+              {item.place}
+            </p>
+            <p class="text">{item.text}</p>
+            <div slot="footer" class="tags">
+              {item.tags.map((tag) => (
+                <dgonmej-ui-badge>{tag}</dgonmej-ui-badge>
+              ))}
+            </div>
+          </dgonmej-ui-card>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .hobbies {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+    gap: var(--ui-space-6);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .hobbies dgonmej-ui-card {
+    height: 100%;
+  }
+
+  .media {
+    aspect-ratio: 4 / 3;
+  }
+
+  .media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .place {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    color: var(--ui-color-primary-text);
+    font-size: var(--ui-font-size-title3);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .text {
+    margin: 0;
+    color: var(--ui-color-text-muted);
+    font-size: var(--ui-font-size-body);
+    line-height: var(--ui-line-height-body);
+  }
+</style>

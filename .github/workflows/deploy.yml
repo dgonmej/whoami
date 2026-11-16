@@ -18,27 +18,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # whoami usa dgonmej-ui como dependencia local (file:../dgonmej-ui),
-      # asi que se descargan los dos repositorios uno al lado del otro.
+      # dgonmej-ui se instala desde npm como cualquier otra dependencia.
       - uses: actions/checkout@v4
-        with:
-          path: whoami
-      - uses: actions/checkout@v4
-        with:
-          repository: dgonmej/dgonmej-ui
-          path: dgonmej-ui
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Build dgonmej-ui
-        working-directory: dgonmej-ui
-        run: npm ci && npm run build
+          cache: npm
       - name: Build site
-        working-directory: whoami
         run: npm ci && npm run build
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: whoami/dist
+          path: dist
 
   deploy:
     needs: build

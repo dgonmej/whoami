@@ -14,11 +14,10 @@ Publicada en **https://dgonmej.github.io/whoami/** (español) y **/whoami/en/** 
 
 ## Desarrollo
 
-Necesita el repositorio `dgonmej-ui` en la carpeta de al lado (`../dgonmej-ui`), compilado:
+`dgonmej-ui` se instala desde [npm](https://www.npmjs.com/package/dgonmej-ui) con el resto de dependencias:
 
 ```bash
-cd ../dgonmej-ui && npm install && npm run build
-cd ../whoami && npm install
+npm install
 npm run dev        # http://localhost:4321/whoami/
 npm run build      # genera dist/
 npm run preview
@@ -42,10 +41,8 @@ Para cambiar un texto, editarlo en `src/i18n/content.ts` en los dos idiomas.
 
 ## Despliegue
 
-`.github/workflows/deploy.yml` compila dgonmej-ui y el sitio y lo publica en GitHub Pages
-en cada push a `master`. En GitHub, *Settings > Pages > Source* debe estar en
-**GitHub Actions**. Si `dgonmej-ui` es privado, el workflow necesita un token con acceso a
-ese repositorio en el paso que lo descarga.
+`.github/workflows/deploy.yml` compila el sitio y lo publica en GitHub Pages en cada push a
+`master`. En GitHub, *Settings > Pages > Source* debe estar en **GitHub Actions**.
 
 ## Créditos
 

@@ -2,7 +2,7 @@
 import 'dgonmej-ui/tokens.css';
 import '../styles/global.css';
 import { getAbsoluteLocaleUrl } from 'astro:i18n';
-import { content, locales, type Locale } from '../i18n/content';
+import { content, locales, socials, type Locale } from '../i18n/content';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 
@@ -14,6 +14,24 @@ const { locale } = Astro.props;
 const t = content[locale];
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const canonical = getAbsoluteLocaleUrl(locale, '');
+
+// Imagen al compartir (1200 x 630, una por idioma, en public/) y datos para Google
+const image = new URL(locale === 'es' ? '/og.png' : '/og-en.png', Astro.site).href;
+const imageAlt =
+  locale === 'es'
+    ? 'Diego González, desarrollador frontend en Tenerife'
+    : 'Diego González, frontend developer in Tenerife';
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Diego González',
+  alternateName: 'dgonmej',
+  url: getAbsoluteLocaleUrl('es', ''),
+  image: new URL('/og.png', Astro.site).href,
+  jobTitle: locale === 'es' ? 'Desarrollador frontend' : 'Frontend developer',
+  address: { '@type': 'PostalAddress', addressRegion: 'Tenerife', addressCountry: 'ES' },
+  sameAs: [...socials.map((s) => s.href), 'https://links.dgonmej.com/'],
+};
 ---
 
 <!doctype html>
@@ -33,10 +51,27 @@ const canonical = getAbsoluteLocaleUrl(locale, '');
     <meta property="og:description" content={t.meta.description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content={locale === 'es' ? 'es_ES' : 'en_US'} />
+    <meta property="og:locale:alternate" content={locale === 'es' ? 'en_US' : 'es_ES'} />
+    <meta property="og:site_name" content="Diego González" />
+    <meta property="og:image" content={image} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={imageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@dgonmej" />
+    <meta name="twitter:creator" content="@dgonmej" />
+    <meta name="twitter:title" content={t.meta.title} />
+    <meta name="twitter:description" content={t.meta.description} />
+    <meta name="twitter:image" content={image} />
+    <meta name="twitter:image:alt" content={imageAlt} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
     <link rel="icon" type="image/png" sizes="32x32" href={`${base}/favicon-32x32.png`} />
     <link rel="icon" type="image/png" sizes="16x16" href={`${base}/favicon-16x16.png`} />
+    <link rel="icon" type="image/png" sizes="192x192" href={`${base}/android-chrome-192x192.png`} />
     <link rel="apple-touch-icon" sizes="180x180" href={`${base}/apple-touch-icon.png`} />
+    <link rel="manifest" href={`${base}/site.webmanifest`} />
     <meta name="theme-color" content="#f5f5f7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
 

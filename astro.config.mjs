@@ -1,16 +1,15 @@
 import { defineConfig } from 'astro/config';
 
-// Publicado en GitHub Pages: https://dgonmej.github.io/whoami/
+// Publicado en https://whoami.dgonmej.com (servidor propio, en la raiz del dominio)
 export default defineConfig({
-  site: 'https://dgonmej.github.io',
+  site: 'https://whoami.dgonmej.com',
   // Sin la barra de herramientas de desarrollo de Astro en local
   devToolbar: { enabled: false },
-  base: '/whoami',
   i18n: {
     locales: ['es', 'en'],
     defaultLocale: 'es',
     routing: {
-      // Español en /whoami/ e inglés en /whoami/en/
+      // Español en / e inglés en /en/
       prefixDefaultLocale: false,
     },
   },

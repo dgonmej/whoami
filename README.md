@@ -2,7 +2,7 @@
 
 Mi web personal: quién soy, con qué tecnologías trabajo, mis aficiones y mi trayectoria.
 
-Publicada en **https://dgonmej.github.io/whoami/** (español) y **/whoami/en/** (inglés).
+Publicada en **https://whoami.dgonmej.com** (español) y **/en/** (inglés).
 
 ## Tecnología
 
@@ -18,7 +18,7 @@ Publicada en **https://dgonmej.github.io/whoami/** (español) y **/whoami/en/** 
 
 ```bash
 npm install
-npm run dev        # http://localhost:4321/whoami/
+npm run dev        # http://localhost:4321/
 npm run build      # genera dist/
 npm run preview
 ```
@@ -30,8 +30,8 @@ src/
   i18n/content.ts     todos los textos en español e inglés (misma estructura en los dos)
   components/         secciones de la pagina (Hero, About, Hobbies, Journey, Contact...)
   layouts/Layout.astro
-  pages/index.astro   español (/whoami/)
-  pages/en/           inglés (/whoami/en/)
+  pages/index.astro   español (/)
+  pages/en/           inglés (/en/)
   assets/             fotos e ilustraciones (Astro las optimiza al compilar)
   styles/global.css   acento verde azulado sobre los tokens de dgonmej-ui
 public/               favicons y logos de tecnologias
@@ -41,8 +41,13 @@ Para cambiar un texto, editarlo en `src/i18n/content.ts` en los dos idiomas.
 
 ## Despliegue
 
-`.github/workflows/deploy.yml` compila el sitio y lo publica en GitHub Pages en cada push a
-`master`. En GitHub, *Settings > Pages > Source* debe estar en **GitHub Actions**.
+Se publica en el servidor propio (alias SSH `sandbox`), servido por nginx desde
+`/srv/apps/whoami`, detrás de Cloudflare:
+
+```bash
+npm run build
+rsync -a --delete dist/ sandbox:/srv/apps/whoami/
+```
 
 ## Créditos
 

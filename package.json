@@ -11,6 +11,6 @@
   },
   "dependencies": {
     "astro": "^7.4.8",
-    "dgonmej-ui": "^0.1.2"
+    "dgonmej-ui": "^0.1.3"
   }
 }

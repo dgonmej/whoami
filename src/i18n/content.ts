@@ -48,7 +48,7 @@ export const socials = [
   { name: 'X (Twitter)', href: 'https://twitter.com/dgonmej', icon: 'twitter' },
 ] as const;
 
-export const email = 'dgonmej10@gmail.com';
+export const email = 'hola@dgonmej.com';
 
 const es = {
   meta: {

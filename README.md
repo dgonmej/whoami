@@ -37,12 +37,15 @@ src/
 public/               favicons y logos de tecnologias
 ```
 
-Para cambiar un texto, editarlo en `src/i18n/content.ts` en los dos idiomas.
+Perfil, redes, trayectoria y aficiones: El contenido sale de dgonmej-api (panel de dgonmej.com → Contenidos) y se lee al compilar (`src/lib/api.ts`); lo de `src/i18n/content.ts` es el respaldo si la API no responde. `CONTENIDO_API=off npm run build` compila solo con los datos locales y `CONTENIDO_API=http://localhost:3001` con la API en local. Los textos de la interfaz (menú, títulos, pie) y las tecnologías se cambian en `src/i18n/content.ts`, en los dos idiomas.
 
 ## Despliegue
 
-Se publica en el servidor propio (alias SSH `sandbox`), servido por nginx desde
-`/srv/apps/whoami`, detrás de Cloudflare:
+Se publica en el servidor propio, servido por nginx desde `/srv/apps/whoami`, detrás de Cloudflare.
+
+Se despliega sola con GitHub Actions (`.github/workflows/desplegar.yml`): con cada push a `main`, cuando cambia su contenido en el panel de dgonmej.com (la API avisa al repo) o a mano desde la pestaña Actions. Sube `dist/` con `rsync` al usuario `autodeployer` del servidor, que solo puede escribir en `/srv/apps/whoami`.
+
+A mano, si hace falta:
 
 ```bash
 npm run build

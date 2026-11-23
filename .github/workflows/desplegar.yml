@@ -1,0 +1,50 @@
+# Compila la web y la sube al servidor (/srv/apps/whoami) con cada push a main, cuando cambia su contenido
+# en dgonmej-api (la API manda un repository_dispatch «contenido») o a mano desde la pestaña Actions.
+# Secretos del repo: DESPLIEGUE_SSH_KEY (clave privada solo para esta web: en el servidor, el usuario
+# autodeployer solo puede escribir con rsync en su carpeta), DESPLIEGUE_HOST y DESPLIEGUE_KNOWN_HOSTS.
+name: Desplegar
+
+on:
+  push:
+    branches: [main]
+  repository_dispatch:
+    types: [contenido]
+  workflow_dispatch:
+
+# Una sola a la vez: si llega otra, la que está en marcha se cancela (la nueva ya trae lo último)
+concurrency:
+  group: desplegar
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  desplegar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Compilar con el contenido de dgonmej-api
+        run: npm run build
+        env:
+          # Si la API no responde, falla en vez de publicar los datos locales
+          CONTENIDO_OBLIGATORIO: '1'
+      - name: Subir al servidor
+        env:
+          CLAVE: ${{ secrets.DESPLIEGUE_SSH_KEY }}
+          HOST: ${{ secrets.DESPLIEGUE_HOST }}
+          KNOWN_HOSTS: ${{ secrets.DESPLIEGUE_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$CLAVE" > ~/.ssh/despliegue
+          chmod 600 ~/.ssh/despliegue
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          rsync -rlz --delete --chmod=D2775,F664 -e "ssh -i ~/.ssh/despliegue -o IdentitiesOnly=yes" dist/ "autodeployer@$HOST:"

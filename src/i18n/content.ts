@@ -1,7 +1,14 @@
 /*
  * Contenido del sitio en cada idioma. Ambos idiomas comparten la misma estructura:
  * al anadir un texto en uno, anadirlo tambien en el otro.
+ *
+ * El perfil, las redes, la trayectoria y las aficiones salen de dgonmej-api (se editan en el panel,
+ * dgonmej.com/admin → Contenidos) y se leen al compilar (src/lib/api.ts); lo de aquí es el respaldo
+ * si la API no responde. Los textos de la interfaz (menú, títulos, pie) y las tecnologías siguen aquí.
  */
+import { leerContenido, type ContenidoApi } from '../lib/api';
+
+const api = await leerContenido();
 
 export const locales = ['es', 'en'] as const;
 export type Locale = (typeof locales)[number];
@@ -11,6 +18,9 @@ export const localeNames: Record<Locale, string> = {
   es: 'Español',
   en: 'English',
 };
+
+/** Foto de una afición: una de src/assets (por nombre) o la de la API, con sus medidas */
+export type HobbyImage = string | { src: string; width: number; height: number };
 
 export type TimelineItem = {
   kind: 'education' | 'work' | 'travel';
@@ -42,13 +52,19 @@ const stack = [
   { name: 'Apache', logo: 'apache.svg' },
 ];
 
-export const socials = [
+type Social = { name: string; href: string; icon: 'github' | 'linkedin' | 'twitter' | 'mail' };
+const socialsLocal: Social[] = [
   { name: 'GitHub', href: 'https://github.com/dgonmej', icon: 'github' },
   { name: 'LinkedIn', href: 'https://www.linkedin.com/in/dgonmej', icon: 'linkedin' },
   { name: 'X (Twitter)', href: 'https://twitter.com/dgonmej', icon: 'twitter' },
-] as const;
+];
+const iconos: Record<string, Social['icon']> = { github: 'github', linkedin: 'linkedin', x: 'twitter', email: 'mail' };
 
-export const email = 'hola@dgonmej.com';
+export const socials: Social[] = api
+  ? api.redes.filter((r) => r.url && r.red in iconos).map((r) => ({ name: r.red === 'x' ? 'X (Twitter)' : r.nombre, href: r.url, icon: iconos[r.red] }))
+  : socialsLocal;
+
+export const email = api?.perfil?.email || 'hola@dgonmej.com';
 
 const es = {
   meta: {
@@ -90,21 +106,21 @@ const es = {
     items: [
       {
         place: 'Tenerife',
-        image: 'tenerife',
+        image: 'tenerife' as HobbyImage,
         alt: 'Diego bajo el agua en una piscina de Tenerife, saludando a la cámara',
         text: 'Me gusta divertirme y conocer gente nueva. Intento disfrutar de las cosas buenas de la vida, siempre con una sonrisa.',
         tags: ['Piscina', 'Diversión', 'Gafas de sol'],
       },
       {
         place: 'La Palma',
-        image: 'la-palma',
+        image: 'la-palma' as HobbyImage,
         alt: 'Diego en la cima de una montaña de La Palma, entre la niebla',
         text: 'Me encanta viajar y descubrir sitios nuevos para escapar de la rutina. La nieve de la montaña o la arena de la playa son lo que necesito para recargar energía.',
         tags: ['Montaña', 'Frío', 'Nieve'],
       },
       {
         place: 'Fuerteventura',
-        image: 'fuerteventura',
+        image: 'fuerteventura' as HobbyImage,
         alt: 'Pies descalzos en la orilla de una playa de Fuerteventura',
         text: 'Para mí es muy importante tener momentos de paz, como pasar el rato en la playa disfrutando de un buen atardecer.',
         tags: ['Playa', 'Océano', 'Descalzo'],
@@ -176,7 +192,7 @@ const es = {
           'Desarrollador web y responsable del frontend de la intranet de la empresa, con módulos en Angular (v12–v17) y una librería privada de web components. También he conectado y mejorado las APIs en .NET, supervisado al equipo y dado formación interna en frontend, arquitectura web y onboarding.',
         highlights: ['Angular', 'Web components', 'APIs .NET', 'Liderazgo técnico', 'Formación'],
       },
-    ] satisfies TimelineItem[],
+    ] as TimelineItem[],
   },
   contact: {
     title: '¿Hablamos?',
@@ -191,7 +207,9 @@ const es = {
   },
 };
 
-const en: typeof es = {
+type Contenido = typeof es;
+
+const en: Contenido = {
   meta: {
     title: 'Diego González | Who am I?',
     description:
@@ -231,21 +249,21 @@ const en: typeof es = {
     items: [
       {
         place: 'Tenerife',
-        image: 'tenerife',
+        image: 'tenerife' as HobbyImage,
         alt: 'Diego underwater in a pool in Tenerife, waving at the camera',
         text: 'I like having fun and meeting new people. I try to enjoy the good things in life, always with a smile on my face.',
         tags: ['Pool', 'Fun', 'Sunglasses'],
       },
       {
         place: 'La Palma',
-        image: 'la-palma',
+        image: 'la-palma' as HobbyImage,
         alt: 'Diego on a mountain top in La Palma, surrounded by fog',
         text: 'I love traveling and discovering new places to escape the routine. Mountain snow or beach sand is what I need to recharge.',
         tags: ['Mountain', 'Cold', 'Snow'],
       },
       {
         place: 'Fuerteventura',
-        image: 'fuerteventura',
+        image: 'fuerteventura' as HobbyImage,
         alt: 'Bare feet on the shore of a beach in Fuerteventura',
         text: 'Moments of peace matter a lot to me, like spending time on the beach and enjoying a good sunset.',
         tags: ['Beach', 'Ocean', 'Barefoot'],
@@ -332,7 +350,52 @@ const en: typeof es = {
   },
 };
 
-export const content: Record<Locale, typeof es> = { es, en };
+// ---------- Lo de la API encima de lo local ----------
+
+const tipos = { formacion: 'education', trabajo: 'work', viaje: 'travel' } as const;
+const dominio = (url: string) => new URL(url).hostname.replace(/^www\./, '');
+
+function aplicar(t: Contenido, datos: ContenidoApi, ingles: boolean) {
+  const elegir = (es: string, en: string) => (ingles ? en || es : es);
+  const p = datos.perfil;
+  if (p) {
+    t.hero.role = elegir(p.titular, p.titularEn) || t.hero.role;
+    t.hero.location = elegir(p.ubicacion, p.ubicacionEn) || t.hero.location;
+    t.hero.bio = elegir(p.bio, p.bioEn) || t.hero.bio;
+    t.about.text = elegir(p.sobreMi, p.sobreMiEn) || t.about.text;
+    const etiquetas = ingles && p.sobreMiEtiquetasEn.length ? p.sobreMiEtiquetasEn : p.sobreMiEtiquetas;
+    if (etiquetas.length) t.about.tags = etiquetas;
+    t.contact.text = elegir(p.contacto, p.contactoEn) || t.contact.text;
+  }
+  if (datos.trayectoria.length) {
+    t.journey.items = datos.trayectoria.map((e) => ({
+      kind: tipos[e.tipo],
+      period: e.periodo,
+      title: elegir(e.titulo, e.tituloEn),
+      description: elegir(e.descripcion, e.descripcionEn),
+      highlights: ingles && e.puntosEn.length ? e.puntosEn : e.puntos,
+      ...(e.enlaces.length ? { links: e.enlaces.map((href) => ({ label: dominio(href), href })) } : {}),
+      ...(e.actual ? { current: true } : {}),
+    }));
+  }
+  const aficiones = datos.aficiones.filter((a) => a.imagen);
+  if (aficiones.length) {
+    t.hobbies.items = aficiones.map((a) => ({
+      place: a.lugar,
+      image: { src: a.imagen!.url, width: a.imagen!.ancho, height: a.imagen!.alto },
+      alt: ingles ? a.altEn || a.imagen!.alt : a.imagen!.alt,
+      text: elegir(a.texto, a.textoEn),
+      tags: ingles && a.etiquetasEn.length ? a.etiquetasEn : a.etiquetas,
+    }));
+  }
+}
+
+if (api) {
+  aplicar(es, api, false);
+  aplicar(en, api, true);
+}
+
+export const content: Record<Locale, Contenido> = { es, en };
 
 /** Texto de la etiqueta "Actualidad" del timeline segun el idioma. */
 export const currentLabel: Record<Locale, string> = { es: 'Actualidad', en: 'Present' };

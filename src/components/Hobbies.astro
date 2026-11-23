@@ -28,7 +28,7 @@ const images = { tenerife, 'la-palma': laPalma, fuerteventura } as const;
           <dgonmej-ui-card elevation="raised">
             <div slot="media" class="media">
               <Image
-                src={images[item.image as keyof typeof images]}
+                {...(typeof item.image === 'string' ? { src: images[item.image as keyof typeof images] } : item.image)}
                 alt={item.alt}
                 width={720}
                 sizes="(min-width: 880px) 360px, 100vw"

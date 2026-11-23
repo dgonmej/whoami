@@ -21,9 +21,15 @@ const other = locales.find((l) => l !== locale)!;
 ---
 
 <dgonmej-ui-nav-bar class="site-nav" style="--ui-nav-bar-max-width: var(--site-max)">
-  <a slot="leading" class="brand" href={home} aria-label="Diego González">
-    <span class="brand-mark" aria-hidden="true">dg</span>
-    <span class="brand-name">Diego González</span>
+  <!-- Firma de la familia dgonmej (manual en brand.dgonmej.com): tesela «dg» con la insignia >_ y la pastilla en Índigo -->
+  <a slot="leading" class="brand" href={home} aria-label="whoami, de dgonmej: Diego González">
+    <span class="brand-mark" aria-hidden="true">
+      <b>dg</b>
+      <span class="brand-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="m4 17 6-6-6-6" /><path d="M12 19h8" /></svg>
+      </span>
+    </span>
+    <span class="brand-name" aria-hidden="true"><span class="brand-family">dgonmej</span> <span class="brand-pill">whoami</span></span>
   </a>
 
   {
@@ -68,7 +74,7 @@ const other = locales.find((l) => l !== locale)!;
   .brand {
     display: inline-flex;
     align-items: center;
-    gap: var(--ui-space-2);
+    gap: 10px;
     min-height: 44px;
     padding-inline: var(--ui-space-2);
     border-radius: var(--ui-radius-control);
@@ -78,22 +84,87 @@ const other = locales.find((l) => l !== locale)!;
     text-decoration: none;
   }
 
+  /* Colores de la marca (manual de marca: tinta y degradado Índigo de whoami) */
+  .brand {
+    --brand-ink: #0b1416;
+    --brand-gradient: linear-gradient(135deg, #a5b4fc, #818cf8);
+  }
+
   .brand-mark {
+    position: relative;
     display: grid;
     place-items: center;
-    width: 30px;
-    height: 30px;
-    border-radius: calc(var(--ui-radius-md) * 0.8);
-    color: var(--ui-color-primary-contrast);
-    background: var(--ui-gradient-primary);
-    font-size: var(--ui-font-size-footnote);
+    flex: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    background:
+      radial-gradient(90% 90% at 15% 0%, rgb(165 180 252 / 0.55), transparent 70%),
+      radial-gradient(80% 80% at 100% 100%, rgb(129 140 248 / 0.45), transparent 70%),
+      var(--brand-ink);
+    box-shadow:
+      inset 0 0 0 1px rgb(255 255 255 / 0.08),
+      0 4px 12px rgb(129 140 248 / 0.25);
+  }
+
+  .brand-mark b {
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    transform: translateY(-1px);
+    background: var(--brand-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .brand-badge {
+    position: absolute;
+    right: -4px;
+    bottom: -4px;
+    display: grid;
+    place-items: center;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    color: var(--brand-ink);
+    background: var(--brand-gradient);
+    box-shadow: 0 0 0 2px var(--ui-color-background);
+  }
+
+  .brand-badge svg {
+    width: 10px;
+    height: 10px;
+  }
+
+  .brand-name {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--ui-font-size-title3);
     font-weight: 700;
     letter-spacing: -0.02em;
   }
 
+  .brand-pill {
+    padding: 2px 8px 3px;
+    border-radius: var(--ui-radius-pill);
+    color: var(--brand-ink);
+    background: var(--brand-gradient);
+    font-size: 0.8em;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1.2;
+  }
+
+  /* En móvil hay poco sitio junto al idioma y el tema: solo la tesela y la pastilla */
   @media (max-width: 479px) {
-    .brand-name {
+    .brand-family {
       display: none;
+    }
+    .brand-name {
+      font-size: var(--ui-font-size-body);
     }
   }
 </style>

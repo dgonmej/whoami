@@ -87,6 +87,8 @@ const es = {
     bio: 'Me apasionan la programación y la tecnología, y tengo ganas de aprender algo nuevo cada día.',
     cta: 'Escríbeme',
     avatarAlt: 'Ilustración de Diego González',
+    gazeOn: 'Que la ilustración te siga con la mirada',
+    gazeLabel: 'Mirada',
   },
   about: {
     title: 'Más sobre mí',
@@ -230,6 +232,8 @@ const en: Contenido = {
     bio: "I'm a programming enthusiast, passionate about technology and eager to learn something new every day.",
     cta: 'Get in touch',
     avatarAlt: 'Illustration of Diego González',
+    gazeOn: 'Let the illustration follow you with its eyes',
+    gazeLabel: 'Gaze',
   },
   about: {
     title: 'More about me',

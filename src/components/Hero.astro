@@ -1,7 +1,9 @@
 ---
 import { Image } from 'astro:assets';
-import avatarLight from '../assets/avatar-light.png';
-import avatarDark from '../assets/avatar-dark.png';
+// Sin pupilas: las pintan encima los ojos que siguen al ratón (scripts/ojos.mjs las prepara)
+import avatarLight from '../assets/avatar-light-sin-pupilas.png';
+import avatarDark from '../assets/avatar-dark-sin-pupilas.png';
+import ojos from '../lib/ojos.json';
 import Icon from './Icon.astro';
 import { content, email, socials, type Locale } from '../i18n/content';
 
@@ -11,6 +13,20 @@ interface Props {
 
 const { locale } = Astro.props;
 const t = content[locale].hero;
+
+// Cada pupila: centro del ojo, posición de reposo (como en el dibujo) y cuánto se puede mover, en % del avatar
+const pct = (v: number, total: number) => `${((v / total) * 100).toFixed(3)}%`;
+const pupilas = ojos.ojos.map((o) => ({
+  x: pct(o.reposo[0], ojos.ancho),
+  y: pct(o.reposo[1], ojos.alto),
+  cx: o.centro[0] - o.reposo[0],
+  cy: o.centro[1] - o.reposo[1],
+  // Casi tan alta como el ojo, como en el dibujo
+  r: pct(o.alto * 0.78, ojos.ancho),
+  // Recorrido máximo desde el centro del ojo, en píxeles del avatar
+  mx: o.ancho / 2 - o.alto * 0.42,
+  my: o.alto * 0.12,
+}));
 ---
 
 <section class="hero container" aria-labelledby="hero-title">
@@ -49,15 +65,108 @@ const t = content[locale].hero;
   </div>
 
   <div class="portrait">
-    <Image class="avatar avatar-light" src={avatarLight} alt={t.avatarAlt} width={480} loading="eager" />
-    <!-- Misma ilustracion en version oscura: decorativa para no leerla dos veces -->
-    <Image class="avatar avatar-dark" src={avatarDark} alt="" width={480} loading="eager" />
+    <div class="cara" data-mirada>
+      <Image class="avatar avatar-light" src={avatarLight} alt={t.avatarAlt} width={480} loading="eager" />
+      <!-- Misma ilustracion en version oscura: decorativa para no leerla dos veces -->
+      <Image class="avatar avatar-dark" src={avatarDark} alt="" width={480} loading="eager" />
+      <!-- Pupilas encima, recortadas con la forma de cada ojo (public/ojos-mascara.png) -->
+      <div class="pupilas" aria-hidden="true">
+        {
+          pupilas.map((p) => (
+            <span
+              class="pupila"
+              style={`--x: ${p.x}; --y: ${p.y}; --r: ${p.r}`}
+              data-cx={p.cx}
+              data-cy={p.cy}
+              data-mx={p.mx}
+              data-my={p.my}
+            />
+          ))
+        }
+      </div>
+    </div>
+    <button class="mirada-boton" type="button" aria-pressed="true" title={t.gazeOn} hidden>
+      <dgonmej-ui-icon name="eye" size="16"></dgonmej-ui-icon>
+      <span>{t.gazeLabel}</span>
+      <span class="sr-only">: {t.gazeOn}</span>
+    </button>
     <div class="glass-tag" aria-hidden="true">
       <Icon name="map-pin" size={16} />
       {t.location}
     </div>
   </div>
 </section>
+
+<script>
+  // Las pupilas miran hacia el ratón. Se puede apagar con el botón (se recuerda en este navegador);
+  // con movimiento reducido empieza apagado.
+  const CLAVE = 'whoami-mirada';
+  const cara = document.querySelector<HTMLElement>('[data-mirada]');
+  const boton = document.querySelector<HTMLButtonElement>('.mirada-boton');
+  const pupilas = [...(cara?.querySelectorAll<HTMLElement>('.pupila') ?? [])];
+  const conRaton = matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  if (cara && boton && pupilas.length && conRaton) {
+    let guardado: string | null = null;
+    try {
+      guardado = localStorage.getItem(CLAVE);
+    } catch {}
+    let activa = guardado ? guardado === '1' : !matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let pendiente = 0;
+    let raton: { x: number; y: number } | null = null;
+
+    // Escala del avatar en pantalla respecto a sus 480 px de ancho
+    const escala = () => cara.getBoundingClientRect().width / 480;
+
+    const reposo = () => {
+      cara.classList.remove('sigue');
+      for (const p of pupilas) p.style.removeProperty('--dx'), p.style.removeProperty('--dy');
+    };
+
+    const mirar = () => {
+      pendiente = 0;
+      if (!activa || !raton) return;
+      const s = escala();
+      cara.classList.add('sigue');
+      for (const p of pupilas) {
+        const caja = p.getBoundingClientRect();
+        // Centro del ojo en pantalla (la pupila en reposo está desplazada respecto a él)
+        const ox = caja.left + caja.width / 2 + Number(p.dataset.cx) * s - (parseFloat(p.style.getPropertyValue('--dx')) || 0);
+        const oy = caja.top + caja.height / 2 + Number(p.dataset.cy) * s - (parseFloat(p.style.getPropertyValue('--dy')) || 0);
+        const ang = Math.atan2(raton.y - oy, raton.x - ox);
+        const cerca = Math.min(1, Math.hypot(raton.x - ox, raton.y - oy) / 160);
+        const dx = (Number(p.dataset.cx) + Math.cos(ang) * Number(p.dataset.mx) * cerca) * s;
+        const dy = (Number(p.dataset.cy) + Math.sin(ang) * Number(p.dataset.my) * cerca) * s;
+        p.style.setProperty('--dx', `${dx.toFixed(2)}px`);
+        p.style.setProperty('--dy', `${dy.toFixed(2)}px`);
+      }
+    };
+
+    const alMover = (e: PointerEvent) => {
+      raton = { x: e.clientX, y: e.clientY };
+      if (!pendiente) pendiente = requestAnimationFrame(mirar);
+    };
+
+    const pintarBoton = () => {
+      boton.setAttribute('aria-pressed', String(activa));
+      boton.querySelector('dgonmej-ui-icon')?.setAttribute('name', activa ? 'eye' : 'eye-off');
+    };
+
+    boton.hidden = false;
+    pintarBoton();
+    window.addEventListener('pointermove', alMover, { passive: true });
+    document.documentElement.addEventListener('pointerleave', () => ((raton = null), reposo()));
+    boton.addEventListener('click', () => {
+      activa = !activa;
+      try {
+        localStorage.setItem(CLAVE, activa ? '1' : '0');
+      } catch {}
+      pintarBoton();
+      if (activa) mirar();
+      else reposo();
+    });
+  }
+</script>
 
 <style>
   .hero {
@@ -153,11 +262,105 @@ const t = content[locale].hero;
     isolation: isolate;
   }
 
-  .avatar {
+  /* La ilustración y sus pupilas, del mismo tamaño */
+  .cara {
+    position: relative;
+    display: grid;
     grid-area: 1 / 1;
     width: 92%;
+    aspect-ratio: 480 / 600;
+    align-self: end;
+  }
+
+  .avatar {
+    grid-area: 1 / 1;
+    width: 100%;
     height: auto;
     transition: opacity var(--ui-duration-slow) var(--ui-ease-standard);
+  }
+
+  .pupilas {
+    position: absolute;
+    inset: 0;
+    -webkit-mask: url('/ojos-mascara.png') 0 0 / 100% 100% no-repeat;
+    mask: url('/ojos-mascara.png') 0 0 / 100% 100% no-repeat;
+    pointer-events: none;
+  }
+
+  .pupila {
+    position: absolute;
+    top: var(--y);
+    left: var(--x);
+    width: var(--r);
+    aspect-ratio: 1;
+    margin: calc(var(--r) / -2) 0 0 calc(var(--r) / -2);
+    border-radius: 50%;
+    /* El gris de las pupilas del dibujo, con su raya oscura alrededor */
+    background: #262626;
+    box-shadow: 0 0 0 1.5px #080808;
+    transform: translate(var(--dx, 0px), var(--dy, 0px));
+    transition: transform var(--ui-duration-slow) var(--ui-ease-standard);
+    will-change: transform;
+  }
+
+  /* Siguiendo al ratón: respuesta rápida, sin el retardo de volver al reposo */
+  .cara.sigue .pupila {
+    transition-duration: 90ms;
+  }
+
+  .mirada-boton {
+    position: absolute;
+    right: var(--ui-space-4);
+    bottom: var(--ui-space-4);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 36px;
+    padding: 0 var(--ui-space-3);
+    border: 1px solid var(--ui-material-border);
+    border-radius: var(--ui-radius-pill);
+    color: var(--ui-material-text);
+    background: var(--ui-material-bg);
+    box-shadow: var(--ui-shadow-sm);
+    font: inherit;
+    font-size: var(--ui-font-size-footnote);
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform var(--ui-duration-fast) ease-out, opacity var(--ui-duration-fast) ease-out;
+  }
+
+  .mirada-boton:active {
+    transform: scale(0.97);
+  }
+
+  .mirada-boton:focus-visible {
+    outline: 2px solid var(--ui-color-focus);
+    outline-offset: 2px;
+  }
+
+  .mirada-boton[aria-pressed='false'] {
+    opacity: 0.72;
+  }
+
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .mirada-boton {
+      background: var(--ui-material-bg-translucent);
+      -webkit-backdrop-filter: var(--ui-material-blur);
+      backdrop-filter: var(--ui-material-blur);
+    }
+  }
+
+  /* Sin ratón (pantallas táctiles) no hay a quién seguir: sin botón */
+  @media (hover: none), (pointer: coarse) {
+    .mirada-boton {
+      display: none !important;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pupila {
+      transition: none;
+    }
   }
 
   /* La ilustracion cambia con el tema, como en la version original */

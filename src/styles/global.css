@@ -1,63 +1,83 @@
 /*
- * Estilos globales del sitio. Los componentes vienen de dgonmej-ui; aqui solo se
- * personalizan sus tokens (acento verde azulado, la identidad de whoami) y se
- * maqueta la pagina. Todos los pares de color cumplen WCAG AA.
+ * Estilos de whoami. Los componentes vienen de dgonmej-ui; aquí se personalizan sus tokens y se maqueta la página.
+ * Color de la familia dgonmej: Atardecer (ámbar a naranja) (manual de marca en Code/brand) y Sora como fuente.
+ * Todos los pares de color cumplen WCAG AA: el acento sobre el fondo y el texto de los botones.
  */
 
 :root {
-  --ui-color-primary: #0f766e;
-  --ui-color-primary-hover: #0b5f58;
-  --ui-color-primary-text: #0f766e;
-  --ui-color-primary-tint: rgb(13 122 113 / 0.12);
-  --ui-color-primary-glow: rgb(13 122 113 / 0.4);
-  --ui-color-focus: #0d7a71;
-  --ui-gradient-primary: linear-gradient(180deg, #0d7a71 0%, #0b5f58 100%);
+  --ui-font-family: 'Sora', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --ui-font-family-display: 'Sora', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --ui-color-primary: #c2410c;
+  --ui-color-primary-hover: #9a3412;
+  --ui-color-primary-text: #c2410c;
+  --ui-color-primary-tint: rgb(194 65 12 / 0.12);
+  --ui-color-primary-glow: rgb(194 65 12 / 0.35);
+  --ui-color-focus: #c2410c;
+  --ui-color-primary-contrast: #ffffff;
+  --ui-gradient-primary: linear-gradient(180deg, #d4520f 0%, #c2410c 100%);
   --ui-gradient-ambient:
-    radial-gradient(60% 50% at 8% 0%, rgb(20 184 166 / 0.16), transparent 70%),
-    radial-gradient(50% 45% at 100% 8%, rgb(56 189 248 / 0.14), transparent 70%),
-    radial-gradient(55% 50% at 60% 100%, rgb(250 204 21 / 0.07), transparent 70%);
-
+    radial-gradient(60% 50% at 8% 0%, rgb(245 158 11 / 0.16), transparent 70%),
+    radial-gradient(50% 45% at 100% 8%, rgb(249 115 22 / 0.14), transparent 70%),
+    radial-gradient(55% 50% at 60% 100%, rgb(236 72 153 / 0.07), transparent 70%);
+  /* Colores del aro de la foto de perfil (avatar de dgonmej-ui) */
+  --ui-color-ring-1: #f59e0b;
+  --ui-color-ring-2: #fb923c;
+  --ui-color-ring-3: #fcd34d;
   /* Retrato de la cabecera */
   --site-portrait:
-    radial-gradient(70% 60% at 20% 15%, #5eead4, transparent 70%),
-    radial-gradient(60% 60% at 90% 90%, #38bdf8, transparent 70%),
-    linear-gradient(160deg, #14b8a6, #0f766e);
+    radial-gradient(70% 60% at 20% 15%, #fcd34d, transparent 70%),
+    radial-gradient(60% 60% at 90% 90%, #fb923c, transparent 70%),
+    linear-gradient(160deg, #f59e0b, #c2410c);
   --site-max: 1120px;
 }
 
 [data-theme='dark'] {
-  --ui-color-primary: #2dd4bf;
-  --ui-color-primary-hover: #5eead4;
-  --ui-color-primary-text: #2dd4bf;
-  --ui-color-primary-tint: rgb(45 212 191 / 0.18);
-  --ui-color-primary-glow: rgb(45 212 191 / 0.35);
-  --ui-color-focus: #2dd4bf;
+  --ui-color-primary: #fb923c;
+  --ui-color-primary-hover: #fdba74;
+  --ui-color-primary-text: #fb923c;
+  --ui-color-primary-tint: rgb(251 146 60 / 0.18);
+  --ui-color-primary-glow: rgb(251 146 60 / 0.35);
+  --ui-color-focus: #fb923c;
+  --ui-color-primary-contrast: #0b1416;
+  --ui-gradient-primary: linear-gradient(180deg, #fdba74 0%, #fb923c 100%);
   --ui-gradient-ambient:
-    radial-gradient(60% 50% at 8% 0%, rgb(20 184 166 / 0.2), transparent 70%),
-    radial-gradient(50% 45% at 100% 8%, rgb(56 189 248 / 0.12), transparent 70%),
-    radial-gradient(55% 50% at 60% 100%, rgb(250 204 21 / 0.05), transparent 70%);
+    radial-gradient(60% 50% at 8% 0%, rgb(245 158 11 / 0.2), transparent 70%),
+    radial-gradient(50% 45% at 100% 8%, rgb(249 115 22 / 0.12), transparent 70%),
+    radial-gradient(55% 50% at 60% 100%, rgb(236 72 153 / 0.05), transparent 70%);
+  /* Colores del aro de la foto de perfil (avatar de dgonmej-ui) */
+  --ui-color-ring-1: #c2410c;
+  --ui-color-ring-2: #b45309;
+  --ui-color-ring-3: #fb923c;
+  /* Retrato de la cabecera */
   --site-portrait:
-    radial-gradient(70% 60% at 20% 15%, #134e4a, transparent 70%),
-    radial-gradient(60% 60% at 90% 90%, #0c4a6e, transparent 70%),
-    linear-gradient(160deg, #115e59, #042f2e);
+    radial-gradient(70% 60% at 20% 15%, #78350f, transparent 70%),
+    radial-gradient(60% 60% at 90% 90%, #7c2d12, transparent 70%),
+    linear-gradient(160deg, #9a3412, #431407);
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --ui-color-primary: #2dd4bf;
-    --ui-color-primary-hover: #5eead4;
-    --ui-color-primary-text: #2dd4bf;
-    --ui-color-primary-tint: rgb(45 212 191 / 0.18);
-    --ui-color-primary-glow: rgb(45 212 191 / 0.35);
-    --ui-color-focus: #2dd4bf;
+    --ui-color-primary: #fb923c;
+    --ui-color-primary-hover: #fdba74;
+    --ui-color-primary-text: #fb923c;
+    --ui-color-primary-tint: rgb(251 146 60 / 0.18);
+    --ui-color-primary-glow: rgb(251 146 60 / 0.35);
+    --ui-color-focus: #fb923c;
+    --ui-color-primary-contrast: #0b1416;
+    --ui-gradient-primary: linear-gradient(180deg, #fdba74 0%, #fb923c 100%);
     --ui-gradient-ambient:
-      radial-gradient(60% 50% at 8% 0%, rgb(20 184 166 / 0.2), transparent 70%),
-      radial-gradient(50% 45% at 100% 8%, rgb(56 189 248 / 0.12), transparent 70%),
-      radial-gradient(55% 50% at 60% 100%, rgb(250 204 21 / 0.05), transparent 70%);
+      radial-gradient(60% 50% at 8% 0%, rgb(245 158 11 / 0.2), transparent 70%),
+      radial-gradient(50% 45% at 100% 8%, rgb(249 115 22 / 0.12), transparent 70%),
+      radial-gradient(55% 50% at 60% 100%, rgb(236 72 153 / 0.05), transparent 70%);
+    /* Colores del aro de la foto de perfil (avatar de dgonmej-ui) */
+    --ui-color-ring-1: #c2410c;
+    --ui-color-ring-2: #b45309;
+    --ui-color-ring-3: #fb923c;
+    /* Retrato de la cabecera */
     --site-portrait:
-      radial-gradient(70% 60% at 20% 15%, #134e4a, transparent 70%),
-      radial-gradient(60% 60% at 90% 90%, #0c4a6e, transparent 70%),
-      linear-gradient(160deg, #115e59, #042f2e);
+      radial-gradient(70% 60% at 20% 15%, #78350f, transparent 70%),
+      radial-gradient(60% 60% at 90% 90%, #7c2d12, transparent 70%),
+      linear-gradient(160deg, #9a3412, #431407);
   }
 }
 

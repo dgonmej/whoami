@@ -49,7 +49,7 @@ A mano, si hace falta:
 
 ```bash
 npm run build
-rsync -a --delete dist/ sandbox:/srv/apps/whoami/
+rsync -rl --delete dist/ sandbox:/srv/apps/whoami/   # sin -a: no toca los permisos del grupo webs
 ```
 
 ## Créditos

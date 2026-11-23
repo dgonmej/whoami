@@ -1,83 +1,83 @@
 /*
  * Estilos de whoami. Los componentes vienen de dgonmej-ui; aquí se personalizan sus tokens y se maqueta la página.
- * Color de la familia dgonmej: Atardecer (ámbar a naranja) (manual de marca en Code/brand) y Sora como fuente.
+ * Color de la familia dgonmej: Índigo (lavanda a índigo) (manual de marca en Code/brand) y Sora como fuente.
  * Todos los pares de color cumplen WCAG AA: el acento sobre el fondo y el texto de los botones.
  */
 
 :root {
   --ui-font-family: 'Sora', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   --ui-font-family-display: 'Sora', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  --ui-color-primary: #c2410c;
-  --ui-color-primary-hover: #9a3412;
-  --ui-color-primary-text: #c2410c;
-  --ui-color-primary-tint: rgb(194 65 12 / 0.12);
-  --ui-color-primary-glow: rgb(194 65 12 / 0.35);
-  --ui-color-focus: #c2410c;
+  --ui-color-primary: #4338ca;
+  --ui-color-primary-hover: #3730a3;
+  --ui-color-primary-text: #4338ca;
+  --ui-color-primary-tint: rgb(67 56 202 / 0.12);
+  --ui-color-primary-glow: rgb(67 56 202 / 0.35);
+  --ui-color-focus: #4338ca;
   --ui-color-primary-contrast: #ffffff;
-  --ui-gradient-primary: linear-gradient(180deg, #d4520f 0%, #c2410c 100%);
+  --ui-gradient-primary: linear-gradient(180deg, #4f46e5 0%, #4338ca 100%);
   --ui-gradient-ambient:
-    radial-gradient(60% 50% at 8% 0%, rgb(245 158 11 / 0.16), transparent 70%),
-    radial-gradient(50% 45% at 100% 8%, rgb(249 115 22 / 0.14), transparent 70%),
+    radial-gradient(60% 50% at 8% 0%, rgb(99 102 241 / 0.16), transparent 70%),
+    radial-gradient(50% 45% at 100% 8%, rgb(59 130 246 / 0.14), transparent 70%),
     radial-gradient(55% 50% at 60% 100%, rgb(236 72 153 / 0.07), transparent 70%);
   /* Colores del aro de la foto de perfil (avatar de dgonmej-ui) */
-  --ui-color-ring-1: #f59e0b;
-  --ui-color-ring-2: #fb923c;
-  --ui-color-ring-3: #fcd34d;
+  --ui-color-ring-1: #6366f1;
+  --ui-color-ring-2: #818cf8;
+  --ui-color-ring-3: #a5b4fc;
   /* Retrato de la cabecera */
   --site-portrait:
-    radial-gradient(70% 60% at 20% 15%, #fcd34d, transparent 70%),
-    radial-gradient(60% 60% at 90% 90%, #fb923c, transparent 70%),
-    linear-gradient(160deg, #f59e0b, #c2410c);
+    radial-gradient(70% 60% at 20% 15%, #c7d2fe, transparent 70%),
+    radial-gradient(60% 60% at 90% 90%, #818cf8, transparent 70%),
+    linear-gradient(160deg, #6366f1, #4338ca);
   --site-max: 1120px;
 }
 
 [data-theme='dark'] {
-  --ui-color-primary: #fb923c;
-  --ui-color-primary-hover: #fdba74;
-  --ui-color-primary-text: #fb923c;
-  --ui-color-primary-tint: rgb(251 146 60 / 0.18);
-  --ui-color-primary-glow: rgb(251 146 60 / 0.35);
-  --ui-color-focus: #fb923c;
+  --ui-color-primary: #a5b4fc;
+  --ui-color-primary-hover: #c7d2fe;
+  --ui-color-primary-text: #a5b4fc;
+  --ui-color-primary-tint: rgb(165 180 252 / 0.18);
+  --ui-color-primary-glow: rgb(165 180 252 / 0.35);
+  --ui-color-focus: #a5b4fc;
   --ui-color-primary-contrast: #0b1416;
-  --ui-gradient-primary: linear-gradient(180deg, #fdba74 0%, #fb923c 100%);
+  --ui-gradient-primary: linear-gradient(180deg, #c7d2fe 0%, #a5b4fc 100%);
   --ui-gradient-ambient:
-    radial-gradient(60% 50% at 8% 0%, rgb(245 158 11 / 0.2), transparent 70%),
-    radial-gradient(50% 45% at 100% 8%, rgb(249 115 22 / 0.12), transparent 70%),
+    radial-gradient(60% 50% at 8% 0%, rgb(99 102 241 / 0.2), transparent 70%),
+    radial-gradient(50% 45% at 100% 8%, rgb(59 130 246 / 0.12), transparent 70%),
     radial-gradient(55% 50% at 60% 100%, rgb(236 72 153 / 0.05), transparent 70%);
   /* Colores del aro de la foto de perfil (avatar de dgonmej-ui) */
-  --ui-color-ring-1: #c2410c;
-  --ui-color-ring-2: #b45309;
-  --ui-color-ring-3: #fb923c;
+  --ui-color-ring-1: #4338ca;
+  --ui-color-ring-2: #1d4ed8;
+  --ui-color-ring-3: #a5b4fc;
   /* Retrato de la cabecera */
   --site-portrait:
-    radial-gradient(70% 60% at 20% 15%, #78350f, transparent 70%),
-    radial-gradient(60% 60% at 90% 90%, #7c2d12, transparent 70%),
-    linear-gradient(160deg, #9a3412, #431407);
+    radial-gradient(70% 60% at 20% 15%, #312e81, transparent 70%),
+    radial-gradient(60% 60% at 90% 90%, #1e3a8a, transparent 70%),
+    linear-gradient(160deg, #3730a3, #1e1b4b);
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --ui-color-primary: #fb923c;
-    --ui-color-primary-hover: #fdba74;
-    --ui-color-primary-text: #fb923c;
-    --ui-color-primary-tint: rgb(251 146 60 / 0.18);
-    --ui-color-primary-glow: rgb(251 146 60 / 0.35);
-    --ui-color-focus: #fb923c;
+    --ui-color-primary: #a5b4fc;
+    --ui-color-primary-hover: #c7d2fe;
+    --ui-color-primary-text: #a5b4fc;
+    --ui-color-primary-tint: rgb(165 180 252 / 0.18);
+    --ui-color-primary-glow: rgb(165 180 252 / 0.35);
+    --ui-color-focus: #a5b4fc;
     --ui-color-primary-contrast: #0b1416;
-    --ui-gradient-primary: linear-gradient(180deg, #fdba74 0%, #fb923c 100%);
+    --ui-gradient-primary: linear-gradient(180deg, #c7d2fe 0%, #a5b4fc 100%);
     --ui-gradient-ambient:
-      radial-gradient(60% 50% at 8% 0%, rgb(245 158 11 / 0.2), transparent 70%),
-      radial-gradient(50% 45% at 100% 8%, rgb(249 115 22 / 0.12), transparent 70%),
+      radial-gradient(60% 50% at 8% 0%, rgb(99 102 241 / 0.2), transparent 70%),
+      radial-gradient(50% 45% at 100% 8%, rgb(59 130 246 / 0.12), transparent 70%),
       radial-gradient(55% 50% at 60% 100%, rgb(236 72 153 / 0.05), transparent 70%);
     /* Colores del aro de la foto de perfil (avatar de dgonmej-ui) */
-    --ui-color-ring-1: #c2410c;
-    --ui-color-ring-2: #b45309;
-    --ui-color-ring-3: #fb923c;
+    --ui-color-ring-1: #4338ca;
+    --ui-color-ring-2: #1d4ed8;
+    --ui-color-ring-3: #a5b4fc;
     /* Retrato de la cabecera */
     --site-portrait:
-      radial-gradient(70% 60% at 20% 15%, #78350f, transparent 70%),
-      radial-gradient(60% 60% at 90% 90%, #7c2d12, transparent 70%),
-      linear-gradient(160deg, #9a3412, #431407);
+      radial-gradient(70% 60% at 20% 15%, #312e81, transparent 70%),
+      radial-gradient(60% 60% at 90% 90%, #1e3a8a, transparent 70%),
+      linear-gradient(160deg, #3730a3, #1e1b4b);
   }
 }
 

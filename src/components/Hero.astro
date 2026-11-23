@@ -4,6 +4,8 @@ import { Image } from 'astro:assets';
 import avatarLight from '../assets/avatar-light-sin-pupilas.png';
 import avatarDark from '../assets/avatar-dark-sin-pupilas.png';
 import ojos from '../lib/ojos.json';
+import mascaraClaro from '../assets/ojos-mascara-light.png?url';
+import mascaraOscuro from '../assets/ojos-mascara-dark.png?url';
 import Icon from './Icon.astro';
 import { content, email, socials, type Locale } from '../i18n/content';
 
@@ -14,19 +16,33 @@ interface Props {
 const { locale } = Astro.props;
 const t = content[locale].hero;
 
-// Cada pupila: centro del ojo, posición de reposo (como en el dibujo) y cuánto se puede mover, en % del avatar
+// Ojos de cada versión de la ilustración (están unos píxeles desplazados): pupilas que siguen al ratón y
+// párpados que bajan al parpadear, en % del avatar. Cada pupila sabe su reposo (como en el dibujo), el
+// centro de su ojo y cuánto se puede mover desde él (en píxeles del avatar).
 const pct = (v: number, total: number) => `${((v / total) * 100).toFixed(3)}%`;
-const pupilas = ojos.ojos.map((o) => ({
-  x: pct(o.reposo[0], ojos.ancho),
-  y: pct(o.reposo[1], ojos.alto),
-  cx: o.centro[0] - o.reposo[0],
-  cy: o.centro[1] - o.reposo[1],
-  // Casi tan alta como el ojo, como en el dibujo
-  r: pct(o.alto * 0.78, ojos.ancho),
-  // Recorrido máximo desde el centro del ojo, en píxeles del avatar
-  mx: o.ancho / 2 - o.alto * 0.42,
-  my: o.alto * 0.12,
-}));
+type Ojo = { centro: number[]; ancho: number; alto: number; reposo: number[] };
+const capaDeOjos = (lista: Ojo[]) => ({
+  pupilas: lista.map((o) => ({
+    x: pct(o.reposo[0], ojos.ancho),
+    y: pct(o.reposo[1], ojos.alto),
+    cx: o.centro[0] - o.reposo[0],
+    cy: o.centro[1] - o.reposo[1],
+    // Casi tan alta como el ojo, como en el dibujo
+    r: pct(o.alto * 0.78, ojos.ancho),
+    mx: o.ancho / 2 - o.alto * 0.42,
+    my: o.alto * 0.12,
+  })),
+  parpados: lista.map((o) => ({
+    x: pct(o.centro[0] - o.ancho / 2 - 1, ojos.ancho),
+    y: pct(o.centro[1] - o.alto / 2 - 1, ojos.alto),
+    w: pct(o.ancho + 2, ojos.ancho),
+    h: pct(o.alto + 2, ojos.alto),
+  })),
+});
+const capas = [
+  { tema: 'light', mascara: mascaraClaro, ...capaDeOjos(ojos.light) },
+  { tema: 'dark', mascara: mascaraOscuro, ...capaDeOjos(ojos.dark) },
+];
 ---
 
 <section class="hero container" aria-labelledby="hero-title">
@@ -69,21 +85,26 @@ const pupilas = ojos.ojos.map((o) => ({
       <Image class="avatar avatar-light" src={avatarLight} alt={t.avatarAlt} width={480} loading="eager" />
       <!-- Misma ilustracion en version oscura: decorativa para no leerla dos veces -->
       <Image class="avatar avatar-dark" src={avatarDark} alt="" width={480} loading="eager" />
-      <!-- Pupilas encima, recortadas con la forma de cada ojo (public/ojos-mascara.png) -->
-      <div class="pupilas" aria-hidden="true">
-        {
-          pupilas.map((p) => (
-            <span
-              class="pupila"
-              style={`--x: ${p.x}; --y: ${p.y}; --r: ${p.r}`}
-              data-cx={p.cx}
-              data-cy={p.cy}
-              data-mx={p.mx}
-              data-my={p.my}
-            />
-          ))
-        }
-      </div>
+      <!-- Pupilas y párpados encima, recortados con la forma de cada ojo (src/assets/ojos-mascara.png) -->
+      {
+        capas.map((c) => (
+          <div class={`pupilas pupilas-${c.tema}`} aria-hidden="true" style={`--mascara: url(${c.mascara})`}>
+            {c.pupilas.map((p) => (
+              <span
+                class="pupila"
+                style={`--x: ${p.x}; --y: ${p.y}; --r: ${p.r}`}
+                data-cx={p.cx}
+                data-cy={p.cy}
+                data-mx={p.mx}
+                data-my={p.my}
+              />
+            ))}
+            {c.parpados.map((p) => (
+              <span class="parpado" style={`left: ${p.x}; top: ${p.y}; width: ${p.w}; height: ${p.h}`} />
+            ))}
+          </div>
+        ))
+      }
     </div>
     <button class="mirada-boton" type="button" aria-pressed="true" title={t.gazeOn} hidden>
       <dgonmej-ui-icon name="eye" size="16"></dgonmej-ui-icon>
@@ -146,6 +167,27 @@ const pupilas = ojos.ojos.map((o) => ({
       raton = { x: e.clientX, y: e.clientY };
       if (!pendiente) pendiente = requestAnimationFrame(mirar);
     };
+
+    // Parpadeo cada pocos segundos, a ritmo irregular y a veces doble, solo con la mirada activa
+    const reducido = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const parpadear = () => {
+      cara.classList.remove('parpadea');
+      void cara.offsetWidth; // reinicia la animación
+      cara.classList.add('parpadea');
+    };
+    cara.addEventListener('animationend', (e) => {
+      if ((e as AnimationEvent).animationName.includes('parpadeo')) cara.classList.remove('parpadea');
+    });
+    const programarParpadeo = () => {
+      setTimeout(() => {
+        if (activa && !reducido && document.visibilityState === 'visible') {
+          parpadear();
+          if (Math.random() < 0.2) setTimeout(parpadear, 320);
+        }
+        programarParpadeo();
+      }, 2500 + Math.random() * 3500);
+    };
+    if (!reducido) programarParpadeo();
 
     const pintarBoton = () => {
       boton.setAttribute('aria-pressed', String(activa));
@@ -282,8 +324,9 @@ const pupilas = ojos.ojos.map((o) => ({
   .pupilas {
     position: absolute;
     inset: 0;
-    -webkit-mask: url('/ojos-mascara.png') 0 0 / 100% 100% no-repeat;
-    mask: url('/ojos-mascara.png') 0 0 / 100% 100% no-repeat;
+    transition: opacity var(--ui-duration-slow) var(--ui-ease-standard);
+    -webkit-mask: var(--mascara) 0 0 / 100% 100% no-repeat;
+    mask: var(--mascara) 0 0 / 100% 100% no-repeat;
     pointer-events: none;
   }
 
@@ -301,6 +344,25 @@ const pupilas = ojos.ojos.map((o) => ({
     transform: translate(var(--dx, 0px), var(--dy, 0px));
     transition: transform var(--ui-duration-slow) var(--ui-ease-standard);
     will-change: transform;
+  }
+
+  /* Párpado: piel del dibujo con la línea del borde; espera encima del ojo (fuera de la máscara) */
+  .parpado {
+    position: absolute;
+    background: linear-gradient(#e9d3c7 70%, #dcc2b6);
+    box-shadow: inset 0 -2px 0 #111;
+    transform: translateY(-105%);
+  }
+
+  .cara.parpadea .parpado {
+    animation: parpadeo 240ms ease-in-out;
+  }
+
+  @keyframes parpadeo {
+    45%,
+    55% {
+      transform: translateY(0);
+    }
   }
 
   /* Siguiendo al ratón: respuesta rápida, sin el retardo de volver al reposo */
@@ -361,25 +423,33 @@ const pupilas = ojos.ojos.map((o) => ({
     .pupila {
       transition: none;
     }
+    .cara.parpadea .parpado {
+      animation: none;
+    }
   }
 
-  /* La ilustracion cambia con el tema, como en la version original */
-  .avatar-dark {
+  /* La ilustracion (y sus ojos) cambia con el tema, como en la version original */
+  .avatar-dark,
+  .pupilas-dark {
     opacity: 0;
   }
 
-  :global([data-theme='dark']) .avatar-light {
+  :global([data-theme='dark']) .avatar-light,
+  :global([data-theme='dark']) .pupilas-light {
     opacity: 0;
   }
-  :global([data-theme='dark']) .avatar-dark {
+  :global([data-theme='dark']) .avatar-dark,
+  :global([data-theme='dark']) .pupilas-dark {
     opacity: 1;
   }
 
   @media (prefers-color-scheme: dark) {
-    :global(:root:not([data-theme='light'])) .avatar-light {
+    :global(:root:not([data-theme='light'])) .avatar-light,
+    :global(:root:not([data-theme='light'])) .pupilas-light {
       opacity: 0;
     }
-    :global(:root:not([data-theme='light'])) .avatar-dark {
+    :global(:root:not([data-theme='light'])) .avatar-dark,
+    :global(:root:not([data-theme='light'])) .pupilas-dark {
       opacity: 1;
     }
   }

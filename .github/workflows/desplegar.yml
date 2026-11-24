@@ -1,11 +1,14 @@
-# Compila la web y la sube al servidor (/srv/apps/whoami) con cada push a main, cuando cambia su contenido
+# Compila la web y la sube al servidor (/srv/apps/whoami) cuando un cambio llega a main y pasa la comprobación, cuando cambia su contenido
 # en dgonmej-api (la API manda un repository_dispatch «contenido») o a mano desde la pestaña Actions.
 # Secretos del repo: DESPLIEGUE_SSH_KEY (clave privada solo para esta web: en el servidor, el usuario
 # autodeployer solo puede escribir con rsync en su carpeta), DESPLIEGUE_HOST y DESPLIEGUE_KNOWN_HOSTS.
 name: Desplegar
 
 on:
-  push:
+  # Al fusionar en main, solo cuando «Comprobar» ha pasado en verde (si falla, no se despliega)
+  workflow_run:
+    workflows: [Comprobar]
+    types: [completed]
     branches: [main]
   repository_dispatch:
     types: [contenido]
@@ -21,6 +24,8 @@ permissions:
 
 jobs:
   desplegar:
+    # Desde «Comprobar», solo si ha ido bien; el contenido de la API y el lanzamiento a mano, siempre
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:

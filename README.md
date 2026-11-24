@@ -55,3 +55,13 @@ rsync -rl --delete dist/ sandbox:/srv/apps/whoami/   # sin -a: no toca los permi
 ## Créditos
 
 Iconos de [Lucide](https://lucide.dev) (ISC) y logos de [Simple Icons](https://simpleicons.org) (CC0).
+
+## Al clonar el repositorio
+
+Activar el hook que comprueba, antes de cada push que cambie `package-lock.json`, que instala bien en Linux (necesita Docker):
+
+```bash
+git config core.hooksPath .githooks
+```
+
+También se puede lanzar a mano con `npm run comprobar-lock`.

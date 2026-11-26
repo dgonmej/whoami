@@ -8,39 +8,11 @@
  */
 export const API = (process.env.CONTENIDO_API ?? 'https://dgonmej.com').replace(/\/$/, '');
 
-export type ImagenApi = { id: string; alt: string; ancho: number; alto: number; url: string };
-export type ContenidoApi = {
-  perfil: {
-    nombre: string;
-    email: string;
-    titular: string;
-    titularEn: string;
-    ubicacion: string;
-    ubicacionEn: string;
-    bio: string;
-    bioEn: string;
-    sobreMi: string;
-    sobreMiEn: string;
-    sobreMiEtiquetas: string[];
-    sobreMiEtiquetasEn: string[];
-    contacto: string;
-    contactoEn: string;
-  } | null;
-  redes: { id: string; red: string; nombre: string; usuario: string; url: string }[];
-  trayectoria: {
-    tipo: 'formacion' | 'trabajo' | 'viaje';
-    periodo: string;
-    actual: boolean;
-    titulo: string;
-    tituloEn: string;
-    descripcion: string;
-    descripcionEn: string;
-    puntos: string[];
-    puntosEn: string[];
-    enlaces: string[];
-  }[];
-  aficiones: { lugar: string; imagen: ImagenApi | null; altEn: string; texto: string; textoEn: string; etiquetas: string[]; etiquetasEn: string[] }[];
-};
+// Los tipos de lo que devuelve la API salen de su contrato (src/contrato, copia de dgonmej-api)
+import type { ContenidoWhoami, ImagenPublica } from '../contrato/tipos.ts';
+
+export type ImagenApi = ImagenPublica;
+export type ContenidoApi = ContenidoWhoami;
 
 export async function leerContenido(): Promise<ContenidoApi | null> {
   if (API === 'off') return null;

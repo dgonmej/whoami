@@ -9,7 +9,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "comprobar-lock": "scripts/comprobar-lock.sh",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "check": "astro check"
   },
   "dependencies": {
     "@fontsource/sora": "^5.3.0",
@@ -17,6 +18,10 @@
     "dgonmej-ui": "^0.1.3"
   },
   "devDependencies": {
-    "@playwright/test": "1.65.1"
+    "@astrojs/check": "^0.9.12",
+    "@playwright/test": "1.65.1",
+    "@types/node": "^24.19.4",
+    "typescript": "^5.9.3",
+    "zod": "4.6.7"
   }
 }

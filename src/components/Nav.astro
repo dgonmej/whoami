@@ -167,4 +167,12 @@ const other = locales.find((l) => l !== locale)!;
       font-size: var(--ui-font-size-body);
     }
   }
+
+  /* En los móviles más estrechos (320–379 px) no caben la pastilla, el idioma y el tema: solo la tesela
+     (el enlace ya se llama «whoami, de dgonmej» para lectores de pantalla) */
+  @media (max-width: 379px) {
+    .brand-name {
+      display: none;
+    }
+  }
 </style>

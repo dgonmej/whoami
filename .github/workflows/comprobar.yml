@@ -29,3 +29,7 @@ jobs:
         run: npm run build
         env:
           CONTENIDO_API: 'off'
+      - name: Navegador para los tests (WebKit, el de Safari)
+        run: npx playwright install --with-deps webkit
+      - name: Tests de la web (todas las páginas en 4 anchos, claro y oscuro)
+        run: npm run test:e2e

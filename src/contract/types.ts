@@ -1,12 +1,12 @@
-// Copia de dgonmej-api/api/src/contrato: no se edita aquí, se actualiza con «npm run contrato» en dgonmej-api.
+// Copia de dgonmej-api/api/src/contract: no se edita aquí, se actualiza con «npm run contrato» en dgonmej-api.
 /*
  * Tipos de lo que devuelven las rutas públicas (/api/publico/portfolio, /whoami y /links), sacados de los
- * esquemas (esquemas.ts). La API los cumple (routes/publico.ts) y las webs los usan con su copia del
- * contrato: si cambia un campo, la API o la web dejan de compilar donde se usa. Parte del contrato (ver LEEME.md).
+ * esquemas (schemas.ts). La API los cumple (routes/public.ts) y las webs los usan con su copia del
+ * contrato: si cambia un campo, la API o la web dejan de compilar donde se usa. Parte del contrato (ver README.md).
  */
 import type { z } from 'zod';
-import type { esquemas } from './esquemas.ts';
-import type { TipoRed } from './catalogos.ts';
+import type { esquemas } from './schemas.ts';
+import type { TipoRed } from './catalogs.ts';
 
 type Contenido = keyof typeof esquemas;
 type Guardado<C extends Contenido> = z.output<(typeof esquemas)[C]>;

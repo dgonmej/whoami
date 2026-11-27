@@ -1,10 +1,10 @@
-// Copia de dgonmej-api/api/src/contrato: no se edita aquí, se actualiza con «npm run contrato» en dgonmej-api.
+// Copia de dgonmej-api/api/src/contract: no se edita aquí, se actualiza con «npm run contrato» en dgonmej-api.
 /*
  * Cómo se valida lo que llega del panel para cada contenido de las webs (zod). Lo usa la API
- * (resources.ts) y de aquí salen los tipos de lo que reciben las webs (tipos.ts). Parte del contrato (ver LEEME.md).
+ * (resources.ts) y de aquí salen los tipos de lo que reciben las webs (types.ts). Parte del contrato (ver README.md).
  */
 import { z } from 'zod';
-import { catalogoRedes, iconosEnlace, tiposRed, tiposTrayectoria, webs } from './catalogos.ts';
+import { catalogoRedes, iconosEnlace, tiposRed, tiposTrayectoria, webs } from './catalogs.ts';
 
 const texto = (max: number) => z.string().trim().min(1, 'Este campo es obligatorio').max(max, `Máximo ${max} caracteres`);
 const slug = z

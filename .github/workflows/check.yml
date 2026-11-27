@@ -25,7 +25,7 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - name: Tipos (con el contrato de la API en src/contrato)
+      - name: Tipos (con el contrato de la API en src/contract)
         run: npm run check
       - name: Compilar con los datos locales
         run: npm run build

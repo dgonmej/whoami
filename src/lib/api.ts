@@ -8,8 +8,8 @@
  */
 export const API = (process.env.CONTENIDO_API ?? 'https://dgonmej.com').replace(/\/$/, '');
 
-// Los tipos de lo que devuelve la API salen de su contrato (src/contrato, copia de dgonmej-api)
-import type { ContenidoWhoami, ImagenPublica } from '../contrato/tipos.ts';
+// Los tipos de lo que devuelve la API salen de su contrato (src/contract, copia de dgonmej-api)
+import type { ContenidoWhoami, ImagenPublica } from '../contract/types.ts';
 
 export type ImagenApi = ImagenPublica;
 export type ContenidoApi = ContenidoWhoami;

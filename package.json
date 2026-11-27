@@ -8,7 +8,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "comprobar-lock": "scripts/comprobar-lock.sh",
+    "comprobar-lock": "scripts/check-lock.sh",
     "test:e2e": "playwright test",
     "check": "astro check"
   },

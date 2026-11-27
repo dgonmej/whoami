@@ -1,21 +1,21 @@
-// Copia de dgonmej-api/api/src/contrato: no se edita aquí, se actualiza con «npm run contrato» en dgonmej-api.
+// Copia de dgonmej-api/api/src/contract: no se edita aquí, se actualiza con «npm run contrato» en dgonmej-api.
 /*
  * Listas cerradas y catálogo de redes que comparten la API, el panel y las webs (portfolio, whoami, links).
- * Sin dependencias, para poder usarse en cualquier sitio. Parte del contrato (ver LEEME.md).
+ * Sin dependencias, para poder usarse en cualquier sitio. Parte del contrato (ver README.md).
  */
 
 /** Webs que leen los contenidos al compilar; cada una es un repo con su workflow de despliegue */
 export const webs = ['portfolio', 'whoami', 'links'] as const;
 export type Web = (typeof webs)[number];
 
-/** Redes que se saben pintar (las mismas que el catálogo de links: src/lib/redes.ts) */
+/** Redes que se saben pintar (las mismas que el catálogo de links: src/lib/social.ts) */
 export const tiposRed = [
   'github', 'linkedin', 'x', 'instagram', 'youtube', 'tiktok', 'twitch', 'bluesky', 'mastodon', 'threads', 'facebook',
   'discord', 'telegram', 'whatsapp', 'spotify', 'medium', 'devto', 'stackoverflow', 'dribbble', 'behance', 'email', 'web',
 ] as const;
 export type TipoRed = (typeof tiposRed)[number];
 
-/** Iconos de Lucide que entienden links (src/components/Icono.astro) y el panel (admin/src/iconos-enlace.ts) */
+/** Iconos de Lucide que entienden links (src/components/Icon.astro) y el panel (admin/src/link-icons.ts) */
 export const iconosEnlace = ['link', 'globe', 'code', 'braces', 'mail', 'map-pin', 'radio', 'star', 'rocket', 'music', 'briefcase', 'user', 'heart'] as const;
 
 export const tiposTrayectoria = ['formacion', 'trabajo', 'viaje'] as const;

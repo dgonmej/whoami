@@ -43,7 +43,7 @@ Perfil, redes, trayectoria y aficiones: El contenido sale de dgonmej-api (panel 
 
 Se publica en el servidor propio, servido por nginx desde `/srv/apps/whoami`, detrás de Cloudflare.
 
-Se despliega sola con GitHub Actions (`.github/workflows/desplegar.yml`): con cada push a `main`, cuando cambia su contenido en el panel de dgonmej.com (la API avisa al repo) o a mano desde la pestaña Actions. Sube `dist/` con `rsync` al usuario `autodeployer` del servidor, que solo puede escribir en `/srv/apps/whoami`.
+Se despliega sola con GitHub Actions (`.github/workflows/deploy.yml`): con cada push a `main`, cuando cambia su contenido en el panel de dgonmej.com (la API avisa al repo) o a mano desde la pestaña Actions. Sube `dist/` con `rsync` al usuario `autodeployer` del servidor, que solo puede escribir en `/srv/apps/whoami`.
 
 A mano, si hace falta:
 

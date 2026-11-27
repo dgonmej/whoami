@@ -1,11 +1,11 @@
 ---
 import { Image } from 'astro:assets';
-// Sin pupilas: las pintan encima los ojos que siguen al ratón (scripts/ojos.mjs las prepara)
-import avatarLight from '../assets/avatar-light-sin-pupilas.png';
-import avatarDark from '../assets/avatar-dark-sin-pupilas.png';
-import ojos from '../lib/ojos.json';
-import mascaraClaro from '../assets/ojos-mascara-light.png?url';
-import mascaraOscuro from '../assets/ojos-mascara-dark.png?url';
+// Sin pupilas: las pintan encima los ojos que siguen al ratón (scripts/eyes.mjs las prepara)
+import avatarLight from '../assets/avatar-light-no-pupils.png';
+import avatarDark from '../assets/avatar-dark-no-pupils.png';
+import ojos from '../lib/eyes.json';
+import mascaraClaro from '../assets/eyes-mask-light.png?url';
+import mascaraOscuro from '../assets/eyes-mask-dark.png?url';
 import Icon from './Icon.astro';
 import { content, email, socials, type Locale } from '../i18n/content';
 
@@ -85,7 +85,7 @@ const capas = [
       <Image class="avatar avatar-light" src={avatarLight} alt={t.avatarAlt} width={480} loading="eager" />
       <!-- Misma ilustracion en version oscura: decorativa para no leerla dos veces -->
       <Image class="avatar avatar-dark" src={avatarDark} alt="" width={480} loading="eager" />
-      <!-- Pupilas y párpados encima, recortados con la forma de cada ojo (src/assets/ojos-mascara.png) -->
+      <!-- Pupilas y párpados encima, recortados con la forma de cada ojo (src/assets/eyes-mask-*.png) -->
       {
         capas.map((c) => (
           <div class={`pupilas pupilas-${c.tema}`} aria-hidden="true" style={`--mascara: url(${c.mascara})`}>

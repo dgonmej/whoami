@@ -1,12 +1,12 @@
 /*
  * Prepara el avatar para que los ojos sigan al ratón y parpadeen (src/components/Hero.astro). Cada versión
  * (clara y oscura) tiene los ojos unos píxeles desplazados, así que se trata por separado:
- * - src/assets/avatar-{light,dark}-sin-pupilas.png: el avatar con el blanco de los ojos sin las pupilas;
- * - src/assets/ojos-mascara-{light,dark}.png: la forma de cada ojo (opaco = dentro, con el borde suave
+ * - src/assets/avatar-{light,dark}-no-pupils.png: el avatar con el blanco de los ojos sin las pupilas;
+ * - src/assets/eyes-mask-{light,dark}.png: la forma de cada ojo (opaco = dentro, con el borde suave
  *   del propio dibujo), para recortar pupilas y párpados;
- * - src/lib/ojos.json: centro, tamaño y posición de reposo de la pupila de cada ojo, por versión (en
+ * - src/lib/eyes.json: centro, tamaño y posición de reposo de la pupila de cada ojo, por versión (en
  *   píxeles del avatar de 480 × 600).
- * Se vuelve a ejecutar solo si cambia el avatar: node scripts/ojos.mjs
+ * Se vuelve a ejecutar solo si cambia el avatar: node scripts/eyes.mjs
  */
 import sharp from 'sharp';
 import { writeFileSync } from 'node:fs';
@@ -155,9 +155,9 @@ for (const tema of ['light', 'dark']) {
   const img = tema === 'light' ? claro : await leer('avatar-dark.png');
   const { sin, mas, datos } = procesar(img);
   const raw = { raw: { width: W, height: H, channels: 4 } };
-  await sharp(sin, raw).png().toFile(`${ASSETS}avatar-${tema}-sin-pupilas.png`);
-  await sharp(mas, raw).png({ compressionLevel: 9 }).toFile(`${ASSETS}ojos-mascara-${tema}.png`);
+  await sharp(sin, raw).png().toFile(`${ASSETS}avatar-${tema}-no-pupils.png`);
+  await sharp(mas, raw).png({ compressionLevel: 9 }).toFile(`${ASSETS}eyes-mask-${tema}.png`);
   salida[tema] = datos;
 }
-writeFileSync(new URL('../src/lib/ojos.json', import.meta.url), JSON.stringify(salida, null, 2) + '\n');
+writeFileSync(new URL('../src/lib/eyes.json', import.meta.url), JSON.stringify(salida, null, 2) + '\n');
 console.log(JSON.stringify({ light: salida.light, dark: salida.dark }));
